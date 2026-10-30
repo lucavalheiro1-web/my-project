@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>POC — Criar 10 Clientes Aleatórios</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    button { padding: 10px 20px; margin-bottom: 20px; }
+    pre { background: #f6f6f6; padding: 12px; border: 1px solid #ddd; max-height: 400px; overflow: auto; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h2>Criar 10 Clientes Aleatórios</h2>
+  <button id="btnCriar">Criar 10 Clientes</button>
+  <h3>Resultados</h3>
+  <pre id="resultado">Nenhuma ação ainda.</pre>
+
+  <script>
+    const ERP_BASE_URL = "https://erpxtd.c.erpnext.com";
+    const API_KEY = "04e12289fc6d5b9";
+    const API_SECRET = "793a503f69dbc4c";
+
+    function randName() {
+      const nomes = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa"];
+      const sobrenomes = ["Corp", "Tech", "Solutions", "Systems", "Industries", "Enterprises"];
+      const n = nomes[Math.floor(Math.random() * nomes.length)];
+      const s = sobrenomes[Math.floor(Math.random() * sobrenomes.length)];
+      return `${n} ${s} ${Math.floor(Math.random()*1000)}`;
+    }
+
+    function randGroup() {
+      // usar grupo que sabemos que existe
+      return "Commercial";
+    }
+    function randTerritory() {
+      return "All Territories";
+    }
+
+    async function criarCliente(payload) {
+      const url = `${ERP_BASE_URL}/api/resource/Customer`;
+      const headers = {
+        "Authorization": `token ${API_KEY}:${API_SECRET}`,
+        "Content-Type": "application/json"
+      };
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload)
+      });
+      const text = await resp.text();
+      let body;
+      try { body = JSON.parse(text); }
+      catch(e) { body = text; }
+      return { status: resp.status, ok: resp.ok, body: body };
+    }
+
+    document.getElementById("btnCriar").addEventListener("click", async () => {
+      const results = [];
+      for (let i = 1; i <= 10; i++) {
+        const payload = {
+          customer_name: randName(),
+          customer_type: "Company",
+          customer_group: randGroup(),
+          territory: randTerritory()
+        };
+        try {
+          const res = await criarCliente(payload);
+          results.push({ i, payload, res });
+        } catch (err) {
+          results.push({ i, payload, error: err.toString() });
+        }
+      }
+      document.getElementById("resultado").textContent = JSON.stringify(results, null, 2);
+    });
+  </script>
+</body>
+</html>

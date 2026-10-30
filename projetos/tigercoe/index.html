@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COE Isis - TD SYNNEX Center of Excellence</title>
+    <style>
+        :root {
+            --petroleum-green-dark: #0A3430;
+            --petroleum-green-light: #145E54;
+            --tdsynnex-yellow: #FFD166;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--petroleum-green-dark) 0%, var(--petroleum-green-light) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+        
+        .digital-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        
+        .digital-line {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+        }
+        
+        .digital-line:nth-child(1) {
+            width: 30%;
+            height: 1px;
+            top: 20%;
+            left: 10%;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .digital-line:nth-child(2) {
+            width: 20%;
+            height: 1px;
+            top: 35%;
+            right: 15%;
+            animation: float 12s infinite ease-in-out reverse;
+        }
+        
+        .digital-line:nth-child(3) {
+            width: 40%;
+            height: 1px;
+            bottom: 25%;
+            right: 5%;
+            animation: float 18s infinite ease-in-out;
+        }
+        
+        .digital-line:nth-child(4) {
+            width: 25%;
+            height: 1px;
+            bottom: 40%;
+            left: 20%;
+            animation: float 10s infinite ease-in-out reverse;
+        }
+        
+        .digital-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+        
+        .digital-dot:nth-child(5) {
+            top: 15%;
+            left: 30%;
+            animation: pulse 4s infinite ease-in-out;
+        }
+        
+        .digital-dot:nth-child(6) {
+            top: 45%;
+            right: 25%;
+            animation: pulse 6s infinite ease-in-out;
+        }
+        
+        .digital-dot:nth-child(7) {
+            bottom: 20%;
+            left: 40%;
+            animation: pulse 5s infinite ease-in-out;
+        }
+        
+        .digital-dot:nth-child(8) {
+            bottom: 35%;
+            right: 15%;
+            animation: pulse 7s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scaleX(1);
+            }
+            50% {
+                transform: translateY(10px) scaleX(1.1);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.6;
+            }
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .avatar-frame {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        @media (max-aspect-ratio: 1/1) {
+            .avatar-frame {
+                padding-top: 177.78%; /* 9:16 Aspect Ratio for portrait */
+            }
+        }
+        
+        @media (min-aspect-ratio: 4/3) {
+            .avatar-frame {
+                padding-top: 75%; /* 4:3 Aspect Ratio */
+            }
+        }
+        
+        .heygen-embed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .brand-footer {
+            position: relative;
+            margin-top: 15px;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .brand-name {
+            font-size: clamp(14px, 3vw, 20px);
+            font-weight: bold;
+            color: var(--tdsynnex-yellow);
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .avatar-title {
+            font-size: clamp(18px, 4vw, 28px);
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .coe-subtitle {
+            font-size: clamp(12px, 2vw, 16px);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="digital-elements">
+        <div class="digital-line"></div>
+        <div class="digital-line"></div>
+        <div class="digital-line"></div>
+        <div class="digital-line"></div>
+        <div class="digital-dot"></div>
+        <div class="digital-dot"></div>
+        <div class="digital-dot"></div>
+        <div class="digital-dot"></div>
+    </div>
+    
+    <h1 class="avatar-title">COE Isis</h1>
+    <p class="coe-subtitle">The Intelligent Voice of TD SYNNEX Center of Excellence</p>
+    
+    <div class="avatar-container">
+        <div class="avatar-frame">
+            <iframe 
+                class="heygen-embed"
+                src="https://labs.heygen.com/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJLYXR5YV9Qcm9mZXNzaW9uYWxMb29rX3B1YmxpYyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzM0OGRkZjUwM2M2NTRiOWJiYmI4YmVhOWY5MjEwZWFkXzU1ODcwL3ByZXZpZXdfdGFyZ2V0LndlYnAiLCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6dHJ1ZSwia25vd2xlZGdlQmFzZUlkIjoiNTM5MDc4YTI5ZjUzNDRiODhhZjE5MGFlZWE4ODQ0OWMiLCJ1c2VybmFtZSI6Ijg4OWFlZDhiN2IxMzQ3ODNiOWE3OWU5ZmZhMDY3NTM4In0%3D"
+                allowfullscreen
+                allow="microphone"
+                title="COE Isis - TD SYNNEX Center of Excellence"
+            ></iframe>
+        </div>
+        
+        <div class="brand-footer">
+            <div class="brand-name">TDSYNNEX</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Responsive handling for different screen sizes and orientations
+            function adjustLayout() {
+                const container = document.querySelector('.avatar-container');
+                const windowWidth = window.innerWidth;
+                
+                if (windowWidth < 768) {
+                    // Mobile adjustments
+                    container.style.width = '95%';
+                } else {
+                    // Desktop adjustments
+                    container.style.width = '500px';
+                }
+            }
+            
+            // Initial call and event listener for resize
+            adjustLayout();
+            window.addEventListener('resize', adjustLayout);
+            
+            // Add subtle animation to digital elements
+            const digitalElements = document.querySelectorAll('.digital-line, .digital-dot');
+            digitalElements.forEach(element => {
+                const randomDelay = Math.random() * 5;
+                element.style.animationDelay = `${randomDelay}s`;
+            });
+        });
+    </script>
+</body>
+</html>

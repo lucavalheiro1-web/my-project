@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRR — Agro Inteligente · Campinas</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root {
+  --c0: #03090a;
+  --c1: #071318;
+  --c2: #0d1f26;
+  --c3: #132b35;
+  --c4: #1a3a47;
+  --teal: #00c8aa;
+  --teal2: #00eecb;
+  --teal-dim: rgba(0,200,170,.12);
+  --gold: #e8b84b;
+  --gold2: #ffd26e;
+  --gold-dim: rgba(232,184,75,.1);
+  --rose: #f05c7a;
+  --rose-dim: rgba(240,92,122,.12);
+  --sky: #38bdf8;
+  --border: rgba(0,200,170,.13);
+  --border2: rgba(0,200,170,.22);
+  --text: #d8eef0;
+  --text-soft: #6fa8b4;
+  --text-ghost: #2d5e6b;
+  --mono: 'JetBrains Mono', monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--c0);color:var(--text);
+  overflow-x:hidden;min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(0,200,170,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,200,170,.025) 1px,transparent 1px);
+  background-size:64px 64px;
+  pointer-events:none;z-index:0;
+}
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(3,9,10,.92);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+  height:64px;display:flex;align-items:center;
+  padding:0 2.5rem;gap:2rem;
+}
+.logo{
+  display:flex;align-items:center;gap:.7rem;
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:800;
+  letter-spacing:-.02em;
+  background:linear-gradient(135deg,var(--teal),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  flex-shrink:0;
+}
+.logo-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--teal);
+  box-shadow:0 0 8px var(--teal);
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 8px var(--teal)}50%{opacity:.3;box-shadow:none}}
+.nav-links{display:flex;gap:1.8rem;flex:1}
+.nav-links a{
+  font-size:.75rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-soft);
+  text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--teal)}
+.nav-right{display:flex;align-items:center;gap:1rem;margin-left:auto}
+.live-badge{
+  display:flex;align-items:center;gap:.4rem;
+  font-family:var(--mono);font-size:.68rem;
+  color:var(--teal);background:var(--teal-dim);
+  border:1px solid rgba(0,200,170,.3);
+  padding:.25rem .8rem;border-radius:4px;
+}
+.live-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);animation:blink 1.5s infinite}
+.score-chip{
+  font-family:var(--mono);font-size:.72rem;font-weight:500;
+  color:var(--gold);background:var(--gold-dim);
+  border:1px solid rgba(232,184,75,.25);
+  padding:.25rem .8rem;border-radius:4px;
+}
+.hero{
+  position:relative;z-index:1;
+  padding:7rem 2.5rem 5rem;
+  max-width:1300px;margin:0 auto;
+  display:grid;grid-template-columns:1.1fr .9fr;
+  gap:5rem;align-items:center;
+}
+.hero-pre{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--mono);font-size:.7rem;
+  color:var(--teal);letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:1.8rem;
+}
+.hero-pre span{
+  padding:.2rem .6rem;background:var(--teal-dim);
+  border:1px solid rgba(0,200,170,.25);border-radius:3px;
+}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.6rem,4.5vw,4rem);
+  font-weight:800;line-height:1.06;
+  letter-spacing:-.03em;margin-bottom:1.4rem;
+}
+h1 .accent{
+  background:linear-gradient(90deg,var(--teal),var(--teal2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+h1 .accent2{
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-p{
+  font-size:1rem;line-height:1.8;color:var(--text-soft);
+  max-width:500px;margin-bottom:2.5rem;
+}
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.8rem 1.6rem;border-radius:6px;
+  font-weight:600;font-size:.85rem;cursor:pointer;
+  transition:all .22s;border:none;text-decoration:none;
+  font-family:'Space Grotesk',sans-serif;
+}
+.btn-teal{background:var(--teal);color:var(--c0)}
+.btn-teal:hover{background:var(--teal2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,200,170,.3)}
+.btn-ghost{
+  background:transparent;color:var(--text-soft);
+  border:1px solid var(--border2);
+}
+.btn-ghost:hover{color:var(--teal);border-color:var(--teal);background:var(--teal-dim)}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.kpi-cell{
+  background:var(--c1);padding:1.6rem;
+  position:relative;overflow:hidden;
+  transition:background .2s;
+}
+.kpi-cell:hover{background:var(--c2)}
+.kpi-cell::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--teal),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.kpi-cell:hover::before{opacity:1}
+.kpi-tag{font-family:var(--mono);font-size:.62rem;color:var(--text-ghost);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem}
+.kpi-val{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;line-height:1}
+.kpi-sub{font-size:.75rem;color:var(--text-soft);margin-top:.5rem}
+.kpi-trend{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:.65rem;margin-top:.6rem;padding:.15rem .5rem;border-radius:3px}
+.up{color:#4ade80;background:rgba(74,222,128,.1)}
+.down{color:var(--rose);background:var(--rose-dim)}
+section{position:relative;z-index:1;padding:6rem 2.5rem}
+.container{max-width:1300px;margin:0 auto}
+.sec-tag{
+  font-family:var(--mono);font-size:.65rem;
+  color:var(--teal);letter-spacing:.14em;text-transform:uppercase;
+  display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem;
+}
+.sec-tag::before{content:'';width:20px;height:1px;background:var(--teal)}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,2.8vw,2.5rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.8rem}
+.sec-desc{font-size:.92rem;color:var(--text-soft);line-height:1.75;max-width:580px}
+.sec-head{margin-bottom:3rem}
+.esg-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:900px){.esg-wrap{grid-template-columns:1fr}}
+.esg-card{background:var(--c1);border:1px solid var(--border);border-radius:2px;overflow:hidden;transition:all .3s}
+.esg-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.esg-card-top{padding:1.8rem 1.8rem 1.4rem;border-bottom:1px solid var(--border)}
+.esg-card-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:.3rem}
+.esg-card-sub{font-size:.75rem;color:var(--text-ghost)}
+.esg-ring-row{display:flex;align-items:center;justify-content:space-between;margin-top:1.2rem}
+.ring-wrap{position:relative;width:72px;height:72px;flex-shrink:0}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:6}
+.ring-fill{fill:none;stroke-width:6;stroke-linecap:round}
+.ring-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
+.badge-grid{display:flex;flex-direction:column;gap:.4rem;flex:1;margin-left:1rem}
+.b-row{display:grid;grid-template-columns:14px 1fr 38px;align-items:center;gap:.6rem;font-size:.72rem}
+.b-letter{color:var(--text-ghost);font-weight:600}
+.b-bar{height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.b-fill{height:100%;border-radius:99px}
+.b-pct{font-family:var(--mono);color:var(--text-soft);font-size:.65rem;text-align:right}
+.esg-card-body{padding:1.4rem 1.8rem 1.8rem}
+.insight-list{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.insight-list li{font-size:.78rem;color:var(--text-soft);line-height:1.5;padding-left:1.2rem;position:relative}
+.insight-list li::before{content:'→';position:absolute;left:0;color:var(--teal);font-size:.65rem;top:.05em}
+.insight-list li.warn::before{color:var(--gold)}
+.insight-list li.bad::before{color:var(--rose)}
+.esg-pill{display:inline-block;padding:.18rem .6rem;border-radius:3px;font-family:var(--mono);font-size:.62rem;font-weight:600;margin-top:1rem}
+.pill-teal{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(0,200,170,.25)}
+.pill-gold{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(232,184,75,.25)}
+.insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-top:3rem}
+.insight-card{
+  background:var(--c1);border:1px solid var(--border);
+  border-left:3px solid var(--teal);
+  border-radius:2px;padding:1.3rem 1.4rem;
+  transition:all .2s;
+}
+.insight-card:hover{background:var(--c2);transform:translateX(4px)}
+.insight-card.gold-border{border-left-color:var(--gold)}
+.insight-card.rose-border{border-left-color:var(--rose)}
+.insight-card.sky-border{border-left-color:var(--sky)}
+.ic-label{font-family:var(--mono);font-size:.6rem;color:var(--text-ghost);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.ic-title{font-size:.9rem;font-weight:600;margin-bottom:.4rem}
+.ic-body{font-size:.78rem;color:var(--text-soft);line-height:1.6}
+.ic-metric{font-family:var(--mono);font-size:1.3rem;font-weight:700;color:var(--teal);margin-top:.6rem}
+.ic-metric.gold{color:var(--gold)}
+.ic-metric.rose{color:var(--rose)}
+.ic-metric.sky{color:var(--sky)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:2px}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--c2)}
+th{padding:.85rem 1.1rem;text-align:left;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-ghost);border-bottom:1px solid var(--border)}
+td{padding:.82rem 1.1rem;font-size:.82rem;border-bottom:1px solid rgba(255,255,255,.03)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,200,170,.03)}
+.tag{display:inline-block;padding:.18rem .55rem;border-radius:3px;font-family:var(--mono);font-size:.62rem;font-weight:600}
+.tg{background:var(--teal-dim);color:var(--teal)}
+.ta{background:var(--gold-dim);color:var(--gold)}
+.tr{background:var(--rose-dim);color:var(--rose)}
+.ts{background:rgba(56,189,248,.1);color:var(--sky)}
+.tabs{display:flex;gap:.4rem;margin-bottom:1.8rem;border-bottom:1px solid var(--border)}
+.tab{padding:.55rem 1.1rem;font-size:.78rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text-ghost);transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'Space Grotesk',sans-serif}
+.tab.on{color:var(--teal);border-bottom-color:var(--teal)}
+.tab:hover{color:var(--teal)}
+.panel{display:none}.panel.on{display:block}
+.al-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1rem}
+.al{background:var(--c1);border:1px solid var(--border);border-radius:2px;padding:1.1rem 1.2rem;display:flex;gap:.9rem;align-items:flex-start;transition:background .2s}
+.al:hover{background:var(--c2)}
+.al.crit{border-left:3px solid var(--rose)}
+.al.warn{border-left:3px solid var(--gold)}
+.al.ok{border-left:3px solid var(--teal)}
+.al-ico{width:34px;height:34px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.ic-r{background:var(--rose-dim)}
+.ic-g{background:var(--gold-dim)}
+.ic-t{background:var(--teal-dim)}
+.ic-s{background:rgba(56,189,248,.1)}
+.al-title{font-size:.85rem;font-weight:600;margin-bottom:.2rem}
+.al-meta{font-size:.72rem;color:var(--text-ghost)}
+.al-badge{font-family:var(--mono);font-size:.6rem;padding:.12rem .45rem;border-radius:2px;margin-left:.4rem}
+.ab-r{background:var(--rose-dim);color:var(--rose)}
+.ab-g{background:var(--gold-dim);color:var(--gold)}
+.carb-layout{display:grid;grid-template-columns:2fr 1fr;gap:2rem}
+@media(max-width:900px){.carb-layout{grid-template-columns:1fr}}
+.chart-box{background:var(--c1);border:1px solid var(--border);border-radius:2px;padding:1.6rem}
+.chart-title{font-family:var(--mono);font-size:.65rem;color:var(--text-ghost);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.2rem}
+.ops-col{display:flex;flex-direction:column;gap:1rem}
+.op{background:var(--c1);border:1px solid var(--border);border-radius:2px;padding:1.2rem;transition:all .2s}
+.op:hover{border-color:var(--border2);background:var(--c2)}
+.op-lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.45rem}
+.op-lbl.sell{color:var(--teal)}
+.op-lbl.buy{color:var(--rose)}
+.op-lbl.net{color:var(--gold)}
+.op-num{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700}
+.op-det{font-size:.72rem;color:var(--text-ghost);margin-top:.3rem}
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);border-radius:2px;overflow:hidden;margin-top:2rem}
+.pipe-step{padding:1.2rem 1rem;border-right:1px solid var(--border);transition:background .2s}
+.pipe-step:last-child{border-right:none}
+.pipe-step:hover{background:var(--c2)}
+.pipe-n{font-family:var(--mono);font-size:.58rem;color:var(--text-ghost);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.pipe-ttl{font-size:.82rem;font-weight:600}
+.pipe-sub{font-size:.7rem;color:var(--text-ghost);margin-top:.25rem}
+.en-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);margin-bottom:2rem}
+@media(max-width:700px){.en-grid{grid-template-columns:1fr 1fr}}
+.en-cell{background:var(--c1);padding:1.5rem;text-align:center;transition:background .2s}
+.en-cell:hover{background:var(--c2)}
+.en-ico{font-size:1.6rem;margin-bottom:.7rem}
+.en-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--teal)}
+.en-lbl{font-size:.72rem;color:var(--text-soft);margin-top:.3rem}
+.map-box{background:var(--c1);border:1px solid var(--border);border-radius:2px;height:360px;position:relative;overflow:hidden}
+.map-glow{position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 45% 52%,rgba(0,200,170,.06) 0%,transparent 65%),radial-gradient(ellipse 30% 35% at 65% 30%,rgba(56,189,248,.04) 0%,transparent 60%)}
+.dot{position:absolute;width:10px;height:10px;border-radius:50%;cursor:pointer;transform:translate(-50%,-50%)}
+.dot::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid currentColor;opacity:.35;animation:wave 2.5s ease-out infinite}
+@keyframes wave{0%{transform:scale(1);opacity:.35}100%{transform:scale(2.8);opacity:0}}
+.dot-t{background:var(--teal);color:var(--teal)}
+.dot-a{background:var(--gold);color:var(--gold)}
+.dot-r{background:var(--rose);color:var(--rose)}
+.map-tip{visibility:hidden;opacity:0;position:absolute;bottom:calc(100%+8px);left:50%;transform:translateX(-50%);background:var(--c3);border:1px solid var(--border2);border-radius:4px;padding:.5rem .8rem;font-size:.7rem;white-space:nowrap;z-index:20;transition:opacity .15s;pointer-events:none;font-family:var(--mono)}
+.dot:hover .map-tip{visibility:visible;opacity:1}
+.map-lbl{position:absolute;font-size:.65rem;color:var(--text-ghost);background:rgba(3,9,10,.75);padding:.1rem .4rem;border-radius:3px;pointer-events:none;transform:translate(-50%,0);font-family:var(--mono)}
+.map-legend{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--text-soft)}
+.leg-d{width:8px;height:8px;border-radius:50%}
+.gap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.2rem}
+.gap-card{background:var(--c1);border:1px solid rgba(240,92,122,.15);border-radius:2px;padding:1.5rem;transition:all .22s}
+.gap-card:hover{background:var(--c2);border-color:rgba(240,92,122,.3);transform:translateY(-3px)}
+.gap-ico{font-size:1.3rem;margin-bottom:.8rem}
+.gap-ttl{font-size:.9rem;font-weight:700;margin-bottom:.45rem}
+.gap-body{font-size:.78rem;color:var(--text-soft);line-height:1.65}
+.gap-impact{display:flex;align-items:center;gap:.5rem;margin-top:.9rem;font-family:var(--mono);font-size:.62rem;color:var(--rose)}
+.gap-impact::before{content:'⚠';font-size:.8rem}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.f-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,var(--teal),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.f-text{font-size:.72rem;color:var(--text-ghost);line-height:1.7}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;gap:3rem;padding:5rem 1.5rem 3rem}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  section{padding:4rem 1.5rem}
+  .pipe{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><div class="logo-dot"></div>BRR</div>
+  <div class="nav-links">
+    <a href="#esg">ESG</a>
+    <a href="#propriedades">Propriedades</a>
+    <a href="#alertas">Alertas</a>
+    <a href="#carbono">Carbono</a>
+    <a href="#energia">Energia</a>
+    <a href="#mapa">Mapa</a>
+  </div>
+  <div class="nav-right">
+    <span class="live-badge">LIVE · Campinas SP</span>
+    <span class="score-chip">ESG INDEX 79.4</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-pre"><span>BRR / AGRO INTELIGENTE</span> Campinas e Região · 2025</div>
+    <h1>Monetizando a <span class="accent">sustentabilidade</span> com <span class="accent2">IA</span> no agro</h1>
+    <p class="hero-p">Plataforma integrada de monitoramento ESG, créditos de carbono e energia renovável para 23 municípios da RMC — dados em tempo real, insights acionáveis e compliance TCFD/ISSB.</p>
+    <div class="hero-btns">
+      <a href="#esg" class="btn btn-teal">↓ Explorar Dashboard</a>
+      <a href="#carbono" class="btn btn-ghost">Mercado de Carbono →</a>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-cell">
+      <div class="kpi-tag">Área Monitorada</div>
+      <div class="kpi-val" style="color:var(--teal)">184k</div>
+      <div class="kpi-sub">hectares · 23 municípios</div>
+      <div class="kpi-trend up">↑ +12% vs 2023</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-tag">CO₂ Evitado 2024</div>
+      <div class="kpi-val" style="color:var(--gold)">47,2k</div>
+      <div class="kpi-sub">tCO₂e removidas</div>
+      <div class="kpi-trend up">↑ +18% vs 2023</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-tag">Receita Carbono YTD</div>
+      <div class="kpi-val" style="color:var(--sky)">R$3,1M</div>
+      <div class="kpi-sub">mercado voluntário</div>
+      <div class="kpi-trend up">↑ +34% vs 2023</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-tag">Alertas Ativos</div>
+      <div class="kpi-val" style="color:var(--rose)">7</div>
+      <div class="kpi-sub">3 críticos · 4 avisos</div>
+      <div class="kpi-trend down">↑ +2 hoje</div>
+    </div>
+  </div>
+</div>
+
+<!-- ESG -->
+<section id="esg" style="background:var(--c1)">
+<div class="container">
+  <div class="sec-head">
+    <div class="sec-tag">Score ESG · BRR Platform</div>
+    <h2>Posicionamento multidimensional</h2>
+    <p class="sec-desc">Avaliação das três frentes da plataforma BRR: monitoramento de risco, inteligência geoespacial e o cenário alvo integrado com justiça climática completa.</p>
+  </div>
+  <div class="esg-wrap">
+    <div class="esg-card">
+      <div class="esg-card-top">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="esg-card-name">BRR Fire &amp; Risk</div>
+            <div class="esg-card-sub">Incêndio · Detecção · Previsão SAFE</div>
+          </div>
+          <span class="esg-pill pill-gold">Score 72</span>
+        </div>
+        <div class="esg-ring-row">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 72 72" width="72" height="72">
+              <circle class="ring-bg" cx="36" cy="36" r="30"/>
+              <circle class="ring-fill" cx="36" cy="36" r="30" stroke="var(--gold)" stroke-dasharray="134 226"/>
+            </svg>
+            <div class="ring-val" style="color:var(--gold)">72</div>
+          </div>
+          <div class="badge-grid">
+            <div class="b-row"><span class="b-letter">E</span><div class="b-bar"><div class="b-fill" style="width:85%;background:var(--teal)"></div></div><span class="b-pct">85%</span></div>
+            <div class="b-row"><span class="b-letter">S</span><div class="b-bar"><div class="b-fill" style="width:15%;background:var(--rose)"></div></div><span class="b-pct">15%</span></div>
+            <div class="b-row"><span class="b-letter">G</span><div class="b-bar"><div class="b-fill" style="width:35%;background:var(--gold)"></div></div><span class="b-pct">35%</span></div>
+            <div class="b-row"><span class="b-letter">T</span><div class="b-bar"><div class="b-fill" style="width:52%;background:var(--sky)"></div></div><span class="b-pct">52%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="esg-card-body">
+        <ul class="insight-list">
+          <li>Detecção satelital de focos em 2–5 min na RMC</li>
+          <li>Previsão SAFE 7 dias com 87% de precisão recente</li>
+          <li class="warn">Governança algorítmica sem auditoria externa</li>
+          <li class="bad">Dimensão social ausente (brigadistas, comunidades)</li>
+          <li class="bad">Pegada digital da IA não mensurada</li>
+          <li class="warn">Anti-spoofing satelital não documentado</li>
+        </ul>
+      </div>
+    </div>
+    <div class="esg-card">
+      <div class="esg-card-top">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="esg-card-name">BRR Geo Intelligence</div>
+            <div class="esg-card-sub">Fundiário · CAR · Carbono · Biomas</div>
+          </div>
+          <span class="esg-pill pill-teal">Score 79</span>
+        </div>
+        <div class="esg-ring-row">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 72 72" width="72" height="72">
+              <circle class="ring-bg" cx="36" cy="36" r="30"/>
+              <circle class="ring-fill" cx="36" cy="36" r="30" stroke="var(--teal)" stroke-dasharray="149 226"/>
+            </svg>
+            <div class="ring-val" style="color:var(--teal)">79</div>
+          </div>
+          <div class="badge-grid">
+            <div class="b-row"><span class="b-letter">E</span><div class="b-bar"><div class="b-fill" style="width:92%;background:var(--teal)"></div></div><span class="b-pct">92%</span></div>
+            <div class="b-row"><span class="b-letter">S</span><div class="b-bar"><div class="b-fill" style="width:28%;background:var(--rose)"></div></div><span class="b-pct">28%</span></div>
+            <div class="b-row"><span class="b-letter">G</span><div class="b-bar"><div class="b-fill" style="width:68%;background:var(--gold)"></div></div><span class="b-pct">68%</span></div>
+            <div class="b-row"><span class="b-letter">T</span><div class="b-bar"><div class="b-fill" style="width:61%;background:var(--sky)"></div></div><span class="b-pct">61%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="esg-card-body">
+        <ul class="insight-list">
+          <li>92% cobertura ambiental: APP, RL, biomas e passivos</li>
+          <li>Score geoespacial customizável para crédito e investimento</li>
+          <li>Série histórica de uso do solo desde 2000</li>
+          <li class="warn">Metodologias não publicadas — transparência parcial</li>
+          <li class="bad">Povos indígenas e quilombolas sem métricas de impacto</li>
+          <li class="warn">Integração com exchanges de carbono ainda incipiente</li>
+        </ul>
+      </div>
+    </div>
+    <div class="esg-card" style="border-color:rgba(0,200,170,.25)">
+      <div class="esg-card-top" style="border-bottom-color:rgba(0,200,170,.2)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="esg-card-name">BRR Full ESG</div>
+            <div class="esg-card-sub">Cenário Alvo Integrado · Roadmap 2026</div>
+          </div>
+          <span class="esg-pill pill-teal">Score 95</span>
+        </div>
+        <div class="esg-ring-row">
+          <div class="ring-wrap">
+            <svg viewBox="0 0 72 72" width="72" height="72">
+              <circle class="ring-bg" cx="36" cy="36" r="30"/>
+              <circle class="ring-fill" cx="36" cy="36" r="30" stroke="var(--teal2)" stroke-dasharray="179 226"/>
+            </svg>
+            <div class="ring-val" style="color:var(--teal2)">95</div>
+          </div>
+          <div class="badge-grid">
+            <div class="b-row"><span class="b-letter">E</span><div class="b-bar"><div class="b-fill" style="width:96%;background:var(--teal)"></div></div><span class="b-pct">96%</span></div>
+            <div class="b-row"><span class="b-letter">S</span><div class="b-bar"><div class="b-fill" style="width:88%;background:var(--teal)"></div></div><span class="b-pct">88%</span></div>
+            <div class="b-row"><span class="b-letter">G</span><div class="b-bar"><div class="b-fill" style="width:91%;background:var(--teal)"></div></div><span class="b-pct">91%</span></div>
+            <div class="b-row"><span class="b-letter">T</span><div class="b-bar"><div class="b-fill" style="width:87%;background:var(--sky)"></div></div><span class="b-pct">87%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="esg-card-body">
+        <ul class="insight-list">
+          <li>Relatórios TCFD/ISSB automatizados e auditáveis</li>
+          <li>Governança de IA com explicabilidade e ética documentada</li>
+          <li>Justiça climática: comunidades, saúde pública, rotas</li>
+          <li>APIs para exchanges de carbono voluntário e regulatório</li>
+          <li>Green bonds integrados com 4 bancos parceiros da RMC</li>
+          <li>Score de risco ocupacional para brigadistas e rurais</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="insights-grid">
+    <div class="insight-card">
+      <div class="ic-label">Insight · Ambiental</div>
+      <div class="ic-title">Gap de Reserva Legal na RMC</div>
+      <div class="ic-body">25% das propriedades estão abaixo dos 20% exigidos. Potencial de restauração de 8.400 ha gera créditos adicionais de ~R$1,4M/ano via PRAD certificado.</div>
+      <div class="ic-metric">8.400 ha</div>
+    </div>
+    <div class="insight-card gold-border">
+      <div class="ic-label">Insight · Social</div>
+      <div class="ic-title">Comunidades vulneráveis expostas</div>
+      <div class="ic-body">3 aldeias indígenas e 2 quilombolas na zona de risco de incêndio sem protocolo de evacuação mapeado. Potencial bloqueio de certificações AAA.</div>
+      <div class="ic-metric gold">5 comunidades</div>
+    </div>
+    <div class="insight-card rose-border">
+      <div class="ic-label">Insight · Governança</div>
+      <div class="ic-title">IA sem explicabilidade</div>
+      <div class="ic-body">Modelos preditivos tomam decisões operacionais sem documentação de viés. EU AI Act exige conformidade até 2025 para exportadores brasileiros.</div>
+      <div class="ic-metric rose">Risco Alto</div>
+    </div>
+    <div class="insight-card sky-border">
+      <div class="ic-label">Insight · Financeiro</div>
+      <div class="ic-title">Receita de carbono subestimada</div>
+      <div class="ic-body">Com Verra Gold Standard e integração a exchanges, a receita sobe de R$3,1M para R$8,7M/ano nas propriedades atuais — potencial de +181%.</div>
+      <div class="ic-metric sky">+R$5,6M/ano</div>
+    </div>
+    <div class="insight-card">
+      <div class="ic-label">Insight · Energia</div>
+      <div class="ic-title">Excedente solar sub-monetizado</div>
+      <div class="ic-body">18,6 GWh injetados na rede geram R$2,3M. Com PPAs diretos com indústrias de Campinas e Paulínia, a receita pode subir para R$4,1M (+78%).</div>
+      <div class="ic-metric">+R$1,8M/ano</div>
+    </div>
+    <div class="insight-card gold-border">
+      <div class="ic-label">Insight · Regulatório</div>
+      <div class="ic-title">ISSB S2 obrigatório em 2026</div>
+      <div class="ic-body">Propriedades sem relatório climático ISSB perdem acesso a linhas de crédito rural ESG. Prazo de adequação: 12 meses. BRR pode automatizar o relatório.</div>
+      <div class="ic-metric gold">Prazo: 12 meses</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PROPRIEDADES -->
+<section id="propriedades">
+<div class="container">
+  <div class="sec-head">
+    <div class="sec-tag">Propriedades Rurais · RMC</div>
+    <h2>Fazendas monitoradas</h2>
+    <p class="sec-desc">12 propriedades cadastradas na plataforma BRR com dados fictícios de CAR, reserva legal, score ESG e créditos de carbono gerados.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="tab(this,'p-all')">Todas (12)</button>
+    <button class="tab" onclick="tab(this,'p-crit')">Críticas (3)</button>
+    <button class="tab" onclick="tab(this,'p-ok')">Conformes (7)</button>
+  </div>
+  <div id="p-all" class="panel on">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Propriedade</th><th>Município</th><th>Área (ha)</th><th>RL</th><th>CAR</th><th>Score ESG</th><th>CO₂ (tCO₂e)</th><th>Receita R$</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Fazenda Boa Vista</td><td>Amparo</td><td>1.840</td><td>22%</td><td><span class="tag tg">Regular</span></td><td>88</td><td style="color:var(--teal)">+3.200</td><td>R$96k</td><td><span class="tag tg">Conforme</span></td></tr>
+        <tr><td>Sítio São João</td><td>Pedreira</td><td>340</td><td>18%</td><td><span class="tag ta">Pendente</span></td><td>61</td><td style="color:var(--teal)">+420</td><td>R$12,6k</td><td><span class="tag ta">Atenção</span></td></tr>
+        <tr><td>Fazenda Palmeiras</td><td>Mogi Mirim</td><td>2.100</td><td>25%</td><td><span class="tag tg">Regular</span></td><td>91</td><td style="color:var(--teal)">+5.600</td><td>R$168k</td><td><span class="tag tg">Conforme</span></td></tr>
+        <tr><td>Granja Alvorada</td><td>Jaguariúna</td><td>650</td><td>8%</td><td><span class="tag tr">Irregular</span></td><td>32</td><td style="color:var(--rose)">−280</td><td>−R$8,4k</td><td><span class="tag tr">Crítico</span></td></tr>
+        <tr><td>Haras Santa Luzia</td><td>Holambra</td><td>290</td><td>20%</td><td><span class="tag tg">Regular</span></td><td>79</td><td style="color:var(--teal)">+610</td><td>R$18,3k</td><td><span class="tag tg">Conforme</span></td></tr>
+        <tr><td>Fazenda Rio Branco</td><td>Cosmópolis</td><td>980</td><td>12%</td><td><span class="tag ta">Pendente</span></td><td>54</td><td style="color:var(--teal)">+890</td><td>R$26,7k</td><td><span class="tag ta">Atenção</span></td></tr>
+        <tr><td>Sítio Recanto Verde</td><td>Paulínia</td><td>120</td><td>30%</td><td><span class="tag tg">Regular</span></td><td>94</td><td style="color:var(--teal)">+210</td><td>R$6,3k</td><td><span class="tag tg">Conforme</span></td></tr>
+        <tr><td>Faz. Irmãos Costa</td><td>Artur Nogueira</td><td>1.450</td><td>6%</td><td><span class="tag tr">Irregular</span></td><td>28</td><td style="color:var(--rose)">−540</td><td>−R$16,2k</td><td><span class="tag tr">Crítico</span></td></tr>
+        <tr><td>Pomar São Roque</td><td>Eng. Coelho</td><td>220</td><td>21%</td><td><span class="tag tg">Regular</span></td><td>82</td><td style="color:var(--teal)">+370</td><td>R$11,1k</td><td><span class="tag tg">Conforme</span></td></tr>
+        <tr><td>Fazenda Terra Nova</td><td>Monte Mor</td><td>1.720</td><td>19%</td><td><span class="tag tg">Regular</span></td><td>76</td><td style="color:var(--teal)">+2.100</td><td>R$63k</td><td><span class="tag tg">Conforme</span></td></tr>
+        <tr><td>Agropecuária Souza</td><td>Americana</td><td>560</td><td>7%</td><td><span class="tag tr">Irregular</span></td><td>35</td><td style="color:var(--rose)">−190</td><td>−R$5,7k</td><td><span class="tag tr">Crítico</span></td></tr>
+        <tr><td>Sítio Mirante</td><td>Itatiba</td><td>380</td><td>24%</td><td><span class="tag tg">Regular</span></td><td>85</td><td style="color:var(--teal)">+750</td><td>R$22,5k</td><td><span class="tag tg">Conforme</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div id="p-crit" class="panel">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Propriedade</th><th>Município</th><th>RL Atual</th><th>Déficit</th><th>Score</th><th>Passivo CO₂</th><th>Plano de Ação</th></tr></thead>
+      <tbody>
+        <tr><td>Granja Alvorada</td><td>Jaguariúna</td><td style="color:var(--rose)">8%</td><td>78 ha</td><td>32</td><td style="color:var(--rose)">−280 tCO₂e</td><td><button class="btn btn-ghost" style="padding:.3rem .8rem;font-size:.72rem" onclick="alert('Plano BRR: Restaurar 78 ha via PRAD · Estimativa R$234k · 36 meses · Potencial +840 tCO₂e/ano')">Ver Plano</button></td></tr>
+        <tr><td>Faz. Irmãos Costa</td><td>Artur Nogueira</td><td style="color:var(--rose)">6%</td><td>203 ha</td><td>28</td><td style="color:var(--rose)">−540 tCO₂e</td><td><button class="btn btn-ghost" style="padding:.3rem .8rem;font-size:.72rem" onclick="alert('Plano BRR: PSA Florestal + CRA · Compra de cotas · R$512k · 24 meses · Potencial +1.800 tCO₂e/ano')">Ver Plano</button></td></tr>
+        <tr><td>Agropecuária Souza</td><td>Americana</td><td style="color:var(--rose)">7%</td><td>73 ha</td><td>35</td><td style="color:var(--rose)">−190 tCO₂e</td><td><button class="btn btn-ghost" style="padding:.3rem .8rem;font-size:.72rem" onclick="alert('Plano BRR: Regularização CAR + recomposição ciliar · R$156k · 18 meses · Potencial +620 tCO₂e/ano')">Ver Plano</button></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div id="p-ok" class="panel">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Propriedade</th><th>Município</th><th>Score ESG</th><th>CO₂ (tCO₂e)</th><th>Receita 2024</th><th>Certificação</th></tr></thead>
+      <tbody>
+        <tr><td>Fazenda Boa Vista</td><td>Amparo</td><td>88</td><td>+3.200</td><td>R$96.000</td><td><span class="tag tg">Verra</span></td></tr>
+        <tr><td>Fazenda Palmeiras</td><td>Mogi Mirim</td><td>91</td><td>+5.600</td><td>R$168.000</td><td><span class="tag tg">Gold Std</span></td></tr>
+        <tr><td>Haras Santa Luzia</td><td>Holambra</td><td>79</td><td>+610</td><td>R$18.300</td><td><span class="tag ts">Em processo</span></td></tr>
+        <tr><td>Sítio Recanto Verde</td><td>Paulínia</td><td>94</td><td>+210</td><td>R$6.300</td><td><span class="tag tg">Verra</span></td></tr>
+        <tr><td>Pomar São Roque</td><td>Eng. Coelho</td><td>82</td><td>+370</td><td>R$11.100</td><td><span class="tag ts">Em processo</span></td></tr>
+        <tr><td>Fazenda Terra Nova</td><td>Monte Mor</td><td>76</td><td>+2.100</td><td>R$63.000</td><td><span class="tag tg">Verra</span></td></tr>
+        <tr><td>Sítio Mirante</td><td>Itatiba</td><td>85</td><td>+750</td><td>R$22.500</td><td><span class="tag tg">Gold Std</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div>
+</section>
+
+<!-- ALERTAS -->
+<section id="alertas" style="background:var(--c1)">
+<div class="container">
+  <div class="sec-head">
+    <div class="sec-tag">Central de Alertas · Tempo Real</div>
+    <h2>Monitoramento ativo</h2>
+    <p class="sec-desc">Alertas de incêndio, conformidade ambiental e riscos socioambientais nas propriedades da RMC. Atualizado a cada 5 minutos via satélite BRR.</p>
+  </div>
+  <div class="al-grid">
+    <div class="al crit"><div class="al-ico ic-r">🔥</div><div><div class="al-title">Foco ativo — 4 ha em chamas <span class="al-badge ab-r">CRÍTICO</span></div><div class="al-meta">Jaguariúna · Granja Alvorada · Detectado há 12 min · Vento 28 km/h Norte</div></div></div>
+    <div class="al crit"><div class="al-ico ic-r">⚡</div><div><div class="al-title">Risco SAFE Nível 4 — 7 dias <span class="al-badge ab-r">CRÍTICO</span></div><div class="al-meta">Artur Nogueira · Vento NE 42 km/h · Umidade 18% · Seco extremo</div></div></div>
+    <div class="al crit"><div class="al-ico ic-r">📋</div><div><div class="al-title">CAR vencido há 45 dias <span class="al-badge ab-r">LEGAL</span></div><div class="al-meta">Americana · Agropecuária Souza · Risco de embargo · Multa estimada R$28k</div></div></div>
+    <div class="al warn"><div class="al-ico ic-g">🌡️</div><div><div class="al-title">Estresse térmico em 2 fazendas <span class="al-badge ab-g">AVISO</span></div><div class="al-meta">Cosmópolis + Pedreira · Máx. 38°C prevista · Risco para trabalhadores rurais</div></div></div>
+    <div class="al warn"><div class="al-ico ic-g">🌧️</div><div><div class="al-title">Déficit hídrico crítico <span class="al-badge ab-g">AVISO</span></div><div class="al-meta">Monte Mor · Faz. Terra Nova · Reservatório a 58% · 14 dias sem chuva</div></div></div>
+    <div class="al warn"><div class="al-ico ic-g">🐾</div><div><div class="al-title">Fragmentação de habitat <span class="al-badge ab-g">AVISO</span></div><div class="al-meta">Corredor Jaguari-Atibaia · 340 ha de APP não conectados · BRR Geo detectou</div></div></div>
+    <div class="al ok"><div class="al-ico ic-t">✅</div><div><div class="al-title">Auditoria de carbono concluída</div><div class="al-meta">Faz. Palmeiras · Verra Gold Standard · 5.600 tCO₂e aprovados · R$168k</div></div></div>
+    <div class="al ok"><div class="al-ico ic-s">💧</div><div><div class="al-title">APP restaurada com sucesso</div><div class="al-meta">Itatiba · Sítio Mirante · 18 ha recompostos · Conectividade de habitat +22%</div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- CARBONO -->
+<section id="carbono">
+<div class="container">
+  <div class="sec-head">
+    <div class="sec-tag">Mercado de Carbono · BRR Platform</div>
+    <h2>Comprar, vender e monetizar</h2>
+    <p class="sec-desc">Pipeline completo de crédito de carbono — da medição satelital à liquidação financeira em exchanges certificadas. Dados fictícios 2024.</p>
+  </div>
+  <div class="carb-layout">
+    <div class="chart-box">
+      <div class="chart-title">Emissões vs Remoções mensais (tCO₂e) — 2024</div>
+      <canvas id="cChart" height="260"></canvas>
+    </div>
+    <div class="ops-col">
+      <div class="op"><div class="op-lbl sell">▲ VENDA CERTIFICADA</div><div class="op-num" style="color:var(--teal)">5.600 tCO₂e</div><div class="op-det">Faz. Palmeiras → Verra Gold Standard · R$168k</div></div>
+      <div class="op"><div class="op-lbl sell">▲ VENDA CERTIFICADA</div><div class="op-num" style="color:var(--teal)">3.200 tCO₂e</div><div class="op-det">Faz. Boa Vista → Verra Standard · R$96k</div></div>
+      <div class="op"><div class="op-lbl buy">▼ COMPENSAÇÃO</div><div class="op-num" style="color:var(--rose)">1.010 tCO₂e</div><div class="op-det">Granja Alvorada · passivo ambiental · R$30,3k</div></div>
+      <div class="op" style="border-color:rgba(0,200,170,.25)"><div class="op-lbl net">◈ SALDO LÍQUIDO 2024</div><div class="op-num" style="color:var(--teal2)">+13.060 tCO₂e</div><div class="op-det">Receita líquida estimada: R$391.800</div></div>
+    </div>
+  </div>
+  <div class="pipe">
+    <div class="pipe-step"><div class="pipe-n">01 · Medição</div><div class="pipe-ttl">Satélite + IA</div><div class="pipe-sub">BRR Fire + Geo</div></div>
+    <div class="pipe-step"><div class="pipe-n">02 · Relatório</div><div class="pipe-ttl">TCFD / ISSB</div><div class="pipe-sub">Padrão internacional</div></div>
+    <div class="pipe-step"><div class="pipe-n">03 · Certificação</div><div class="pipe-ttl">Verra · Gold Std</div><div class="pipe-sub">Auditoria externa</div></div>
+    <div class="pipe-step"><div class="pipe-n">04 · Exchange</div><div class="pipe-ttl">API Mercado</div><div class="pipe-sub">Voluntário + reg.</div></div>
+    <div class="pipe-step" style="background:var(--teal-dim)"><div class="pipe-n">05 · Finanças</div><div class="pipe-ttl" style="color:var(--teal)">Green Bonds</div><div class="pipe-sub">Bancos ESG</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ENERGIA -->
+<section id="energia" style="background:var(--c1)">
+<div class="container">
+  <div class="sec-head">
+    <div class="sec-tag">Energia Renovável · RMC</div>
+    <h2>Geração distribuída nas propriedades</h2>
+    <p class="sec-desc">Solar fotovoltaico e biomassa de bagaço — dados fictícios de 2024 para as fazendas monitoradas pela plataforma BRR na RMC.</p>
+  </div>
+  <div class="en-grid">
+    <div class="en-cell"><div class="en-ico">☀️</div><div class="en-num">8,4 MW</div><div class="en-lbl">Capacidade solar</div></div>
+    <div class="en-cell"><div class="en-ico">🌿</div><div class="en-num">2,1 MW</div><div class="en-lbl">Biomassa de bagaço</div></div>
+    <div class="en-cell"><div class="en-ico">⚡</div><div class="en-num">34,2 GWh</div><div class="en-lbl">Gerado em 2024</div></div>
+    <div class="en-cell"><div class="en-ico">🔌</div><div class="en-num">18,6 GWh</div><div class="en-lbl">Excedente injetado</div></div>
+    <div class="en-cell"><div class="en-ico">💰</div><div class="en-num" style="color:var(--gold)">R$5,2M</div><div class="en-lbl">Economia + receita</div></div>
+  </div>
+  <div class="chart-box">
+    <div class="chart-title">Geração mensal (MWh) — Solar vs Biomassa · 2024</div>
+    <canvas id="eChart" height="140"></canvas>
+  </div>
+</div>
+</section>
+
+<!-- MAPA -->
+<section id="mapa">
+<div class="container">
+  <div class="sec-head">
+    <div class="sec-tag">Mapa Regional · BRR Geo</div>
+    <h2>Distribuição territorial</h2>
+    <p class="sec-desc">Representação das propriedades monitoradas na RMC. Passe o mouse sobre os pontos para ver detalhes de cada fazenda.</p>
+  </div>
+  <div class="map-box">
+    <div class="map-glow"></div>
+    <div class="dot dot-t" style="left:45%;top:44%"><div class="map-tip">Campinas — Hub BRR</div></div>
+    <div class="dot dot-t" style="left:31%;top:24%"><div class="map-tip">Amparo · Faz. Boa Vista · ESG 88 ✅</div></div>
+    <div class="dot dot-a" style="left:56%;top:20%"><div class="map-tip">Pedreira · Sítio São João · ESG 61 ⚠️</div></div>
+    <div class="dot dot-t" style="left:63%;top:29%"><div class="map-tip">Mogi Mirim · Faz. Palmeiras · ESG 91 ✅</div></div>
+    <div class="dot dot-r" style="left:53%;top:47%"><div class="map-tip">Jaguariúna · Granja Alvorada · 🔥 FOCO ATIVO</div></div>
+    <div class="dot dot-t" style="left:37%;top:50%"><div class="map-tip">Holambra · Haras Santa Luzia · ESG 79 ✅</div></div>
+    <div class="dot dot-a" style="left:55%;top:57%"><div class="map-tip">Cosmópolis · Faz. Rio Branco · ESG 54 ⚠️</div></div>
+    <div class="dot dot-t" style="left:47%;top:61%"><div class="map-tip">Paulínia · Sítio Recanto Verde · ESG 94 ✅</div></div>
+    <div class="dot dot-r" style="left:63%;top:53%"><div class="map-tip">Artur Nogueira · Irmãos Costa · RL 6% 🚨</div></div>
+    <div class="dot dot-t" style="left:68%;top:62%"><div class="map-tip">Eng. Coelho · Pomar São Roque · ESG 82 ✅</div></div>
+    <div class="dot dot-t" style="left:27%;top:57%"><div class="map-tip">Monte Mor · Faz. Terra Nova · ESG 76 ✅</div></div>
+    <div class="dot dot-r" style="left:32%;top:68%"><div class="map-tip">Americana · Agropecuária Souza · CAR irregular 🚨</div></div>
+    <div class="dot dot-t" style="left:72%;top:38%"><div class="map-tip">Itatiba · Sítio Mirante · ESG 85 ✅</div></div>
+    <div class="map-lbl" style="left:47%;top:38%">Campinas</div>
+  </div>
+  <div class="map-legend">
+    <div class="leg"><div class="leg-d" style="background:var(--teal)"></div>Conforme / ESG ≥ 70</div>
+    <div class="leg"><div class="leg-d" style="background:var(--gold)"></div>Atenção / ESG 50–69</div>
+    <div class="leg"><div class="leg-d" style="background:var(--rose)"></div>Crítico / Alerta ativo</div>
+  </div>
+</div>
+</section>
+
+<!-- GAPS -->
+<section style="background:var(--c1)">
+<div class="container">
+  <div class="sec-head">
+    <div class="sec-tag">Análise de Gaps · Roadmap BRR 2026</div>
+    <h2>O que falta para o ESG global</h2>
+    <p class="sec-desc">Lacunas mapeadas segundo os padrões de London Tech Week 2024, ONU/Oxford, EU AI Act, TCFD e ISSB S2.</p>
+  </div>
+  <div class="gap-grid">
+    <div class="gap-card">
+      <div class="gap-ico">📊</div>
+      <div class="gap-ttl">Carbono Incompleto</div>
+      <div class="gap-body">Converter dados ambientais em métricas CO₂ padronizadas, incluindo pegada digital da IA. Relatórios TCFD automáticos e integração via API com exchanges voluntárias e regulatórias.</div>
+      <div class="gap-impact">Perda estimada de R$5,6M/ano em receita de crédito</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-ico">🤖</div>
+      <div class="gap-ttl">Governança de IA Inexistente</div>
+      <div class="gap-body">Modelos preditivos sem explicabilidade nem auditoria independente. EU AI Act em vigor exige conformidade até 2025 para empresas com clientes exportadores europeus.</div>
+      <div class="gap-impact">Risco de bloqueio de acesso a mercados da UE</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-ico">👷</div>
+      <div class="gap-ttl">Dimensão Social do Trabalho</div>
+      <div class="gap-body">Sem rastreamento de risco ocupacional para brigadistas, exposição a PM2.5 e CO, protocolos de segurança térmica nem impacto socioeconômico pós-incêndio nas comunidades.</div>
+      <div class="gap-impact">Score Social abaixo de 20% nas duas frentes BRR</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-ico">🌍</div>
+      <div class="gap-ttl">Justiça Climática Ausente</div>
+      <div class="gap-body">5 comunidades vulneráveis na zona de risco sem protocolo de evacuação. Aldeias indígenas, quilombolas e ribeirinhos da RMC sem indicadores de saúde pública mapeados.</div>
+      <div class="gap-impact">Veto em certificações internacionais de nível AAA</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-ico">🔒</div>
+      <div class="gap-ttl">Segurança Digital Não Documentada</div>
+      <div class="gap-body">Ausência de documentação pública sobre criptografia, proteção contra spoofing satelital (GPS jamming), integridade de alertas críticos e planos de redundância em falhas de sistema.</div>
+      <div class="gap-impact">Incompatível com requisitos de clientes bancários ESG</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-ico">🏦</div>
+      <div class="gap-ttl">Integração Financeira Limitada</div>
+      <div class="gap-body">Faltam relatórios ISSB S2 automatizados, APIs para green bonds e stress tests ambientais. 4 bancos da RMC têm R$340M em linhas ESG disponíveis sem acesso pela plataforma.</div>
+      <div class="gap-impact">R$340M em linhas ESG da RMC inacessíveis</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div>
+    <div class="f-logo">BRR · Agro Inteligente</div>
+    <div class="f-text" style="margin-top:.4rem">Campinas e Região Metropolitana · Dados fictícios para fins demonstrativos</div>
+  </div>
+  <div class="f-text" style="text-align:right">
+    ESG · IA · Carbono · Energia · London Tech Week 2024 · ONU / Oxford<br>
+    TCFD · ISSB S2 · Verra · Gold Standard · EU AI Act · © 2025 BRR
+  </div>
+</footer>
+
+<script>
+function tab(btn,id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+Chart.defaults.color='#2d5e6b';
+Chart.defaults.font.family="'JetBrains Mono',monospace";
+Chart.defaults.font.size=10;
+new Chart(document.getElementById('cChart'),{
+  type:'bar',
+  data:{
+    labels:['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+    datasets:[
+      {label:'CO₂ Removido',data:[1100,980,1200,1050,1380,1420,1560,1490,1350,1200,1050,900],backgroundColor:'rgba(0,200,170,.65)',borderRadius:3},
+      {label:'CO₂ Emitido',data:[-280,-220,-310,-290,-350,-280,-340,-300,-260,-290,-250,-210],backgroundColor:'rgba(240,92,122,.5)',borderRadius:3}
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{labels:{color:'#6fa8b4',padding:16,boxWidth:10}}},scales:{x:{ticks:{color:'#2d5e6b'},grid:{color:'rgba(0,200,170,.05)'}},y:{ticks:{color:'#2d5e6b'},grid:{color:'rgba(0,200,170,.05)'}}}}
+});
+new Chart(document.getElementById('eChart'),{
+  type:'line',
+  data:{
+    labels:['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+    datasets:[
+      {label:'Solar (MWh)',data:[2800,2650,2950,2700,2300,1950,2100,2400,2850,3100,2900,2750],borderColor:'#e8b84b',backgroundColor:'rgba(232,184,75,.08)',fill:true,tension:.45,pointRadius:3,borderWidth:2},
+      {label:'Biomassa (MWh)',data:[700,680,710,690,670,650,660,680,700,720,700,690],borderColor:'#00c8aa',backgroundColor:'rgba(0,200,170,.06)',fill:true,tension:.45,pointRadius:3,borderWidth:2}
+    ]
+  },
+  options:{responsive:true,plugins:{legend:{labels:{color:'#6fa8b4',padding:16,boxWidth:10}}},scales:{x:{ticks:{color:'#2d5e6b'},grid:{color:'rgba(0,200,170,.05)'}},y:{ticks:{color:'#2d5e6b'},grid:{color:'rgba(0,200,170,.05)'}}}}
+});
+</script>
+</body>
+</html>

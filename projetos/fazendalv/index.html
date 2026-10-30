@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazenda LV - Gestão de Bois</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR NAVEGAÇÃO -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🐄 Fazenda LV</h1>
+                <p>Gestão de Bois</p>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-section="dashboard">
+                    📊 Dashboard
+                </button>
+                <button class="nav-btn" data-section="bois">
+                    🐄 Bois
+                </button>
+                <button class="nav-btn" data-section="cuidado">
+                    💊 Cuidado
+                </button>
+                <button class="nav-btn" data-section="compra">
+                    🛒 Compra
+                </button>
+                <button class="nav-btn" data-section="venda">
+                    💰 Venda
+                </button>
+                <button class="nav-btn" data-section="criacao">
+                    👶 Criação
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <p>© 2026 Fazenda LV</p>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+            <!-- DASHBOARD -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>📊 Dashboard</h2>
+                    <p>Resumo geral da fazenda</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total de Bois</h3>
+                        <p class="stat-number" id="total-bois">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Peso Médio</h3>
+                        <p class="stat-number" id="peso-medio">0 kg</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Compras Realizadas</h3>
+                        <p class="stat-number" id="total-compras">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Vendas Realizadas</h3>
+                        <p class="stat-number" id="total-vendas">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO BOIS -->
+            <section id="bois" class="section">
+                <div class="section-header">
+                    <h2>🐄 Cadastro de Bois</h2>
+                </div>
+
+                <!-- FORMULÁRIO CADASTRO -->
+                <div class="form-container">
+                    <h3>Adicionar Novo Boi</h3>
+                    <form id="form-boi" class="form-grid">
+                        <div class="form-group">
+                            <label for="boi-nome">Nome</label>
+                            <input type="text" id="boi-nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="boi-id">Identificação (ID)</label>
+                            <input type="text" id="boi-id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="boi-peso">Peso (kg)</label>
+                            <input type="number" id="boi-peso" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="boi-raca">Raça</label>
+                            <input type="text" id="boi-raca" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="boi-nascimento">Data de Nascimento</label>
+                            <input type="date" id="boi-nascimento" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cadastrar Boi</button>
+                    </form>
+                </div>
+
+                <!-- LISTA DE BOIS -->
+                <div class="table-container">
+                    <h3>Bois Cadastrados</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>ID</th>
+                                <th>Raça</th>
+                                <th>Peso (kg)</th>
+                                <th>Nascimento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-bois">
+                            <tr>
+                                <td colspan="6" class="empty">Nenhum boi cadastrado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO CUIDADO -->
+            <section id="cuidado" class="section">
+                <div class="section-header">
+                    <h2>💊 Cuidado do Boi</h2>
+                </div>
+
+                <!-- FORMULÁRIO SAÚDE -->
+                <div class="form-container">
+                    <h3>Registrar Cuidado</h3>
+                    <form id="form-saude" class="form-grid">
+                        <div class="form-group">
+                            <label for="saude-boi">Selecione o Boi</label>
+                            <select id="saude-boi" required>
+                                <option value="">-- Escolha um boi --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="saude-tipo">Tipo de Cuidado</label>
+                            <select id="saude-tipo" required>
+                                <option value="">-- Escolha --</option>
+                                <option value="vacina">💉 Vacina</option>
+                                <option value="vermifugo">🪱 Vermífugo</option>
+                                <option value="observacao">📝 Observação de Saúde</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="saude-descricao">Descrição</label>
+                            <input type="text" id="saude-descricao" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="saude-data">Data</label>
+                            <input type="date" id="saude-data" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Cuidado</button>
+                    </form>
+                </div>
+
+                <!-- REGISTRAR PESO -->
+                <div class="form-container">
+                    <h3>Registrar Peso</h3>
+                    <form id="form-peso" class="form-grid">
+                        <div class="form-group">
+                            <label for="peso-boi">Selecione o Boi</label>
+                            <select id="peso-boi" required>
+                                <option value="">-- Escolha um boi --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="peso-valor">Peso (kg)</label>
+                            <input type="number" id="peso-valor" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="peso-data">Data</label>
+                            <input type="date" id="peso-data" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Peso</button>
+                    </form>
+                </div>
+
+                <!-- HISTÓRICO DE CUIDADOS -->
+                <div class="table-container">
+                    <h3>Histórico de Cuidados</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Boi</th>
+                                <th>Tipo</th>
+                                <th>Descrição</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-saude">
+                            <tr>
+                                <td colspan="4" class="empty">Nenhum registro de cuidado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO COMPRA -->
+            <section id="compra" class="section">
+                <div class="section-header">
+                    <h2>🛒 Compra de Bois</h2>
+                </div>
+
+                <!-- FORMULÁRIO COMPRA -->
+                <div class="form-container">
+                    <h3>Registrar Compra</h3>
+                    <form id="form-compra" class="form-grid">
+                        <div class="form-group">
+                            <label for="compra-boi">Selecione o Boi</label>
+                            <select id="compra-boi" required>
+                                <option value="">-- Escolha um boi --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="compra-fornecedor">Fornecedor</label>
+                            <input type="text" id="compra-fornecedor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="compra-preco">Preço (R$)</label>
+                            <input type="number" id="compra-preco" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="compra-data">Data da Compra</label>
+                            <input type="date" id="compra-data" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="compra-obs">Observações</label>
+                            <textarea id="compra-obs" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Compra</button>
+                    </form>
+                </div>
+
+                <!-- LISTA DE COMPRAS -->
+                <div class="table-container">
+                    <h3>Compras Realizadas</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Boi</th>
+                                <th>Fornecedor</th>
+                                <th>Preço (R$)</th>
+                                <th>Data</th>
+                                <th>Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-compras">
+                            <tr>
+                                <td colspan="5" class="empty">Nenhuma compra registrada</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO VENDA -->
+            <section id="venda" class="section">
+                <div class="section-header">
+                    <h2>💰 Venda de Bois</h2>
+                </div>
+
+                <!-- FORMULÁRIO VENDA -->
+                <div class="form-container">
+                    <h3>Registrar Venda</h3>
+                    <form id="form-venda" class="form-grid">
+                        <div class="form-group">
+                            <label for="venda-boi">Selecione o Boi</label>
+                            <select id="venda-boi" required>
+                                <option value="">-- Escolha um boi --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="venda-comprador">Comprador</label>
+                            <input type="text" id="venda-comprador" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="venda-preco">Preço (R$)</label>
+                            <input type="number" id="venda-preco" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="venda-data">Data da Venda</label>
+                            <input type="date" id="venda-data" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="venda-obs">Observações</label>
+                            <textarea id="venda-obs" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Venda</button>
+                    </form>
+                </div>
+
+                <!-- LISTA DE VENDAS -->
+                <div class="table-container">
+                    <h3>Vendas Realizadas</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Boi</th>
+                                <th>Comprador</th>
+                                <th>Preço (R$)</th>
+                                <th>Data</th>
+                                <th>Observações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-vendas">
+                            <tr>
+                                <td colspan="5" class="empty">Nenhuma venda registrada</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SEÇÃO CRIAÇÃO -->
+            <section id="criacao" class="section">
+                <div class="section-header">
+                    <h2>👶 Criação e Reprodução</h2>
+                </div>
+
+                <!-- COBERTURA -->
+                <div class="form-container">
+                    <h3>Registrar Cobertura (Cruzamento)</h3>
+                    <form id="form-cobertura" class="form-grid">
+                        <div class="form-group">
+                            <label for="cobertura-macho">Macho (Touro)</label>
+                            <select id="cobertura-macho" required>
+                                <option value="">-- Escolha um touro --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cobertura-femea">Fêmea (Vaca)</label>
+                            <select id="cobertura-femea" required>
+                                <option value="">-- Escolha uma vaca --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cobertura-data">Data da Cobertura</label>
+                            <input type="date" id="cobertura-data" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Cobertura</button>
+                    </form>
+                </div>
+
+                <!-- NASCIMENTO -->
+                <div class="form-container">
+                    <h3>Registrar Nascimento de Bezerro</h3>
+                    <form id="form-nascimento" class="form-grid">
+                        <div class="form-group">
+                            <label for="nasc-bezerro-nome">Nome do Bezerro</label>
+                            <input type="text" id="nasc-bezerro-nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nasc-bezerro-id">Identificação</label>
+                            <input type="text" id="nasc-bezerro-id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nasc-macho">Pai (Touro)</label>
+                            <select id="nasc-macho" required>
+                                <option value="">-- Escolha o pai --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nasc-femea">Mãe (Vaca)</label>
+                            <select id="nasc-femea" required>
+                                <option value="">-- Escolha a mãe --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nasc-data">Data de Nascimento</label>
+                            <input type="date" id="nasc-data" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nasc-peso">Peso ao Nascer (kg)</label>
+                            <input type="number" id="nasc-peso" step="0.1" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Nascimento</button>
+                    </form>
+                </div>
+
+                <!-- GENEALOGIA -->
+                <div class="table-container">
+                    <h3>Histórico de Reprodução</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Macho</th>
+                                <th>Fêmea</th>
+                                <th>Data Cobertura</th>
+                                <th>Bezerro</th>
+                                <th>Data Nascimento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-reproducao">
+                            <tr>
+                                <td colspan="5" class="empty">Nenhum registro de reprodução</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- NOTIFICAÇÕES -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

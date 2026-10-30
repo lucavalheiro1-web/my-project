@@ -1,0 +1,95 @@
+{
+  "name": "seahorse-club-baby-tracker",
+  "version": "2.0.0",
+  "description": "A comprehensive, luxury-designed baby development tracking application with multilingual support and advanced analytics",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve .",
+    "dev": "npx live-server --port=8000 --open=/",
+    "build": "echo 'No build process needed for static site'",
+    "test": "echo 'Tests not implemented yet'",
+    "lint": "npx eslint app.js translations.js",
+    "format": "npx prettier --write *.{html,css,js,md}",
+    "validate": "npx html-validate index.html",
+    "lighthouse": "npx lighthouse http://localhost:8000 --view",
+    "deploy:netlify": "netlify deploy --prod",
+    "deploy:vercel": "vercel --prod",
+    "backup": "tar -czf backup-$(date +%Y%m%d_%H%M%S).tar.gz *.html *.css *.js *.pdf *.md",
+    "clean": "rm -rf node_modules package-lock.json"
+  },
+  "keywords": [
+    "baby-tracker",
+    "development-milestones",
+    "parenting",
+    "child-development",
+    "multilingual",
+    "responsive-design",
+    "progressive-web-app",
+    "accessibility",
+    "luxury-design"
+  ],
+  "author": {
+    "name": "Seahorse Club Team",
+    "email": "team@seahorseclub.com",
+    "url": "https://seahorseclub.com"
+  },
+  "license": "MIT",
+  "homepage": "https://seahorseclub.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seahorse-club/baby-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seahorse-club/baby-tracker/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "Chrome >= 90",
+    "Firefox >= 88",
+    "Safari >= 14",
+    "Edge >= 90",
+    "Opera >= 76"
+  ],
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0",
+    "html-validate": "^7.0.0",
+    "lighthouse": "^10.0.0",
+    "live-server": "^1.2.2",
+    "serve": "^14.0.0"
+  },
+  "dependencies": {},
+  "files": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "translations.js",
+    "Daily-Baby-Tracker-for-New-Mothers.pdf",
+    "README.md",
+    "LICENSE"
+  ],
+  "config": {
+    "port": 8000,
+    "host": "localhost"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/seahorse-club"
+  },
+  "contributors": [
+    {
+      "name": "Manus AI",
+      "email": "ai@manus.im",
+      "role": "Lead Developer"
+    }
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}
+

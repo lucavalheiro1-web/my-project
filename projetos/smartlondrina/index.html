@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal Londrina Inteligente – 90 Anos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+    // Semáforos
+    new Chart(document.getElementById('semaforosChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Verde', 'Amarelo', 'Vermelho', 'Defeito'],
+            datasets: [{ data: [120, 30, 90, 5], backgroundColor: ['#00cc66','#ffcc00','#cc0000','#999999'] }]
+        }
+    });
+
+    // Clima (seca, vegetação, ar, chuva)
+    new Chart(document.getElementById('climaChart'), {
+        type: 'line',
+        data: {
+            labels: ['Jan','Fev','Mar','Abr','Mai','Jun'],
+            datasets: [
+                { label: 'Índice de Seca', data: [40,35,50,60,55,70], borderColor: '#ff9900', fill:false },
+                { label: 'Vegetação (NDVI)', data: [0.65,0.62,0.70,0.72,0.68,0.75], borderColor: '#00cc44', fill:false },
+                { label: 'Qualidade do Ar (PM2.5)', data: [18,22,25,30,27,35], borderColor: '#3399ff', fill:false },
+                { label: 'Chuva (mm)', data: [200,180,150,100,90,70], borderColor: '#6666ff', fill:false }
+            ]
+        }
+    });
+
+
+    // IA simulada nas câmeras (alertas automáticos)
+    function simularAI(panelId, mensagens) {
+        let i = 0;
+        setInterval(() => {
+            const painel = document.getElementById(panelId);
+            if (painel) {
+                const div = document.createElement("div");
+                const horario = new Date().toLocaleTimeString();
+                div.textContent = `[${horario}] ${mensagens[i % mensagens.length]}`;
+                painel.prepend(div);
+                i++;
+            }
+        }, 7000);
+    }
+
+    simularAI("aiMemorial", ["🚶 Sujeito suspeito detectado", "🎒 Objeto abandonado", "🚑 SAMU acionado"]);
+    simularAI("aiAv85", ["🚗 Veículo suspeito parado", "🚓 Polícia acionada", "🏍️ Motocicleta em alta velocidade"]);
+    simularAI("aiRua9", ["🚶 Grupo suspeito em esquina", "🚒 Bombeiros acionados – fumaça detectada"]);
+
+
+    // IA simulada para IoT Urbano
+    simularAI("aiIot", [
+        "🗑️ Lixeira cheia detectada na Rua 9",
+        "🚛 Coleta atrasada no Setor Bueno",
+        "💡 Poste de iluminação apagado na Av. T-63",
+        "🌫️ Nível crítico de PM2.5 na Região Central",
+        "🔊 Ruído excessivo detectado em Cambé de Londrina"
+    ]);
+
+
+    // ESG
+    simularAI("aiEsg", [
+        "♻️ Meta de resíduos atingida (-25%)",
+        "🌱 CO₂ evitado ultrapassa 12 mil ton/ano",
+        "⛽ Consumo de combustível acima do esperado"
+    ]);
+
+    // Clima
+    simularAI("aiClima", [
+        "🌡️ Índice de seca crítico em Ibiporã",
+        "🌫️ Baixa qualidade do ar em Londrina",
+        "🌧️ Chuva intensa prevista para Cambé"
+    ]);
+
+    // Serviços
+    simularAI("aiServicos", [
+        "💻 Novo acesso a 2ª via de IPTU",
+        "🏥 Agendamento Médico confirmado no HUGO",
+        "🏫 Consulta Escolar realizada em Cambé",
+        "📞 Atendimento Virtual em andamento"
+    ]);
+
+
+    // Mobilidade
+    simularAI("aiMobilidade", [
+        "🚦 Semáforo inoperante na Av. 85",
+        "🚗 Congestionamento crítico na Marginal Botafogo",
+        "🚌 Frota reduzida em Cambé",
+        "🚨 Acidente registrado na BR-153"
+    ]);
+
+</script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #111; color: #eee; }
+        header { background: #003300; color: white; padding: 10px; text-align: center; }
+        header img { height: 70px; display: block; margin: 0 auto; }
+        h2 { color: #00ff99; }
+        nav { display: flex; justify-content: center; background: #004d26; flex-wrap: wrap; }
+        nav button { background: none; border: none; color: white; padding: 15px 20px; cursor: pointer; font-size: 16px; }
+        nav button.active { background: #00cc66; }
+        .tabcontent { display: none; padding: 20px; }
+        .videowall { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); grid-gap: 10px; padding: 10px; }
+        .panel { background: #1c1c1c; border-radius: 6px; padding: 10px; box-shadow: 0 0 8px rgba(0,255,100,0.3); }
+        canvas { background: #222; border-radius: 6px; }
+        iframe { width: 100%; height: 250px; border: none; border-radius: 6px; }
+        .alert-panel { background: #000; color: #00ff00; padding: 10px; font-family: monospace; height: 250px; overflow-y: auto; }
+        .alert-item { margin-bottom: 5px; }
+        .card { background: #222; padding: 10px; border-radius: 6px; text-align: center; margin: 5px; }
+        .news-ticker { background: #222; padding: 10px; height: 250px; overflow-y: auto; font-size: 14px; }
+        footer { background: #000; color: #888; text-align: center; padding: 10px; margin-top: 10px; }
+    .ai-panel { background:#000; color:#ff6666; padding:10px; font-family:monospace; height:150px; overflow-y:auto; margin-top:5px; }
+</style>
+</head>
+<body>
+
+
+<header>
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+        <img src="logo90anosColor.jpeg" alt="Londrina 90 anos" style="height:80px;margin-left:10px;margin-right:15px;">
+        <div style="flex-grow:1;text-align:center;">
+            <h1>Portal Londrina Inteligente – 90 Anos</h1>
+            <p>Segurança • Turismo • Mobilidade • IoT • ESG • Clima • Notícias • Serviços • Câmeras</p>
+        </div>
+    </div>
+</header>
+
+
+<nav>
+    <button class="tablink active" data-tab="seguranca">Segurança</button>
+    <button class="tablink" data-tab="turismo">Turismo</button>
+    <button class="tablink" data-tab="mobilidade">Mobilidade</button>
+    <button class="tablink" data-tab="iot">IoT Urbano</button>
+    <button class="tablink" data-tab="esg">ESG</button>
+    <button class="tablink" data-tab="clima">Clima</button>
+    <button class="tablink" data-tab="noticias">Notícias</button>
+    <button class="tablink" data-tab="eventos">Eventos</button>
+    <button class="tablink" data-tab="servicos">Serviços</button>
+    <button class="tablink" data-tab="cameras">Câmeras</button>
+</nav>
+
+<!-- Segurança -->
+<div id="seguranca" class="tabcontent" style="display:block;">
+    <div class="videowall">
+        <div class="panel"><h2>🚨 Ocorrências</h2><canvas id="ocorrenciasChart"></canvas></div>
+        <div class="panel"><h2>⚡ Emergências</h2><canvas id="emergenciasChart"></canvas></div>
+        <div class="panel"><h2>🗺️ Heatmap</h2><iframe src="https://embed.waze.com/iframe?zoom=13&lat=-23.3000&lon=-51.1500&pin=1&monitors=traffic" style="width:100%;height:250px;border:none;border-radius:6px;"></iframe><p style="font-size:12px;color:#aaa;margin-top:6px;">Fonte: Waze Live Map (tráfego em tempo real).</p></div>
+        <div class="panel"><h2>⚡ Alertas</h2><div class="alert-panel" id="alertPanel"></div></div>
+    </div>
+</div>
+
+<!-- Turismo -->
+<div id="turismo" class="tabcontent">
+    <div class="videowall">
+        <div class="panel">
+            <h2>🌊 Lago Igapó</h2>
+            <p>Cartão-postal de Londrina, ideal para caminhadas, esportes e eventos como o Natal do Lago.</p>
+        </div>
+        <div class="panel">
+            <h2>🌿 Jardim Botânico</h2>
+            <p>Área de preservação com trilhas, estufa de vidro e programas de educação ambiental.</p>
+        </div>
+        <div class="panel">
+            <h2⟩⛪ Catedral Metropolitana</h2>
+            <p>Ícone arquitetônico da cidade, ponto de referência no centro e palco de eventos religiosos e culturais.</p>
+        </div>
+        <div class="panel">
+            <h2>🏛️ Museu Histórico de Londrina</h2>
+            <p>Localizado na antiga estação ferroviária, conta a história do café e da colonização do norte do Paraná.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Turismo -->
+<div id="turismo" class="tabcontent">
+    <div class="videowall">
+        <div class="panel">
+            <h2>🌊 Lago Igapó</h2>
+            <p>Cartão-postal de Londrina, ideal para caminhadas, esportes e eventos como o Natal do Lago.</p>
+        </div>
+        <div class="panel">
+            <h2>🌿 Jardim Botânico</h2>
+            <p>Área de preservação com trilhas, estufa de vidro e programas de educação ambiental.</p>
+        </div>
+        <div class="panel">
+            <h2>⛪ Catedral Metropolitana</h2>
+            <p>Ícone arquitetônico da cidade, ponto de referência no centro e palco de eventos religiosos e culturais.</p>
+        </div>
+        <div class="panel">
+            <h2>🏛️ Museu Histórico de Londrina</h2>
+            <p>Localizado na antiga estação ferroviária, conta a história do café e da colonização do norte do Paraná.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Mobilidade -->
+<div id="mobilidade" class="tabcontent">
+    <div class="videowall">
+        <div class="panel"><h2>🚌 Congestionamento</h2><canvas id="trafegoChart"></canvas></div>
+        <div class="panel"><h2>🚍 Frota</h2><canvas id="onibusChart"></canvas></div>
+        <div class="panel"><h2>🗺️ Mapa</h2><iframe src="https://embed.waze.com/iframe?zoom=13&lat=-23.3000&lon=-51.1500&pin=1&monitors=traffic" style="width:100%;height:250px;border:none;border-radius:6px;"></iframe><p style="font-size:12px;color:#aaa;margin-top:4px;">Fonte: Waze Live Map – Trânsito em tempo real</p></div>
+    <div class="panel"><h2>🚦 Semáforos Inteligentes</h2><canvas id="semaforosChart"></canvas></div>
+    
+<div class="panel"><h2>🔔 Alertas Mobilidade</h2><div class="ai-panel" id="aiMobilidade"></div></div>
+
+    </div>
+</div>
+
+<!-- IoT Urbano -->
+<div id="iot" class="tabcontent">
+    <div class="videowall">
+        <div class="panel"><h2>🗑️ Lixeiras</h2><canvas id="lixeirasChart"></canvas></div>
+        <div class="panel"><h2>🚛 Rotas</h2><canvas id="rotasChart"></canvas></div>
+        <div class="panel"><h2>💡 Iluminação</h2><canvas id="iluminacaoChart"></canvas></div>
+        <div class="panel"><h2>🌍 Sensores</h2><canvas id="qualidadeArChart"></canvas></div>
+    
+<div class="panel"><h2>🔔 Alertas IoT</h2><div class="ai-panel" id="aiIot"></div></div>
+
+    </div>
+</div>
+
+<!-- ESG -->
+<div id="esg" class="tabcontent">
+    <div class="videowall">
+        <div class="panel"><h2>📉 Energia</h2><canvas id="energiaHistoricoChart"></canvas></div>
+        <div class="panel"><h2>📊 ESG</h2>
+            <div class="card"><h3>Resíduos</h3><p><b>-25%</b></p></div>
+            <div class="card"><h3>CO₂ Evitado</h3><p><b>12 mil ton/ano</b></p></div>
+            <div class="card"><h3>Combustível</h3><p><b>8.500 L/ano</b></p></div>
+        </div>
+    
+<div class="panel"><h2>🔔 Alertas ESG</h2><div class="ai-panel" id="aiEsg"></div></div>
+
+    </div>
+</div>
+
+<!-- Clima -->
+<div id="clima" class="tabcontent">
+    <div class="videowall">
+        <div class="panel"><h2>🌤️ Previsão do Tempo</h2>
+            <div class="card"><h3>Londrina</h3><p><b>29°C</b> | ☀️ Ensolarado</p></div>
+            <div class="card"><h3>Cambé</h3><p><b>27°C</b> | ⛅ Parcialmente Nublado</p></div>
+            <div class="card"><h3>Ibiporã</h3><p><b>24°C</b> | 🌧️ Chuva Leve</p></div>
+        </div>
+    <div class="panel"><h2>🌦️ Sensores Climáticos</h2><canvas id="climaChart"></canvas></div>
+    
+<div class="panel"><h2>🔔 Alertas Climáticos</h2><div class="ai-panel" id="aiClima"></div></div>
+
+    </div>
+</div>
+
+<!-- Notícias -->
+<div id="noticias" class="tabcontent">
+    <div class="videowall">
+        <div class="panel"><h2>📰 Últimas Notícias</h2>
+            <div class="news-ticker" id="newsPanel">
+                <div>[12:00] 🚧 Obra de duplicação da PR-060 avança 40%.</div>
+                <div>[12:05] 💉 Mutirão de vacinação contra a dengue em Londrina.</div>
+                <div>[12:10] 🚍 Novas linhas de ônibus integradas ao metrô.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Eventos -->
+<div id="eventos" class="tabcontent">
+    <div class="videowall">
+        <div class="panel"><h2>📅 Próximos Eventos</h2>
+            <ul>
+                <li>22/09 – Mutirão da Saúde – Londrina</li>
+                <li>30/09 – Feira de Inovação Tecnológica – Ibiporã</li>
+                <li>05/10 – Festival Cultural de Goiás – Cidade de Goiás</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Serviços Digitais -->
+<div id="servicos" class="tabcontent">
+    <div class="videowall">
+        <div class="panel"><h2>💻 Serviços Online</h2>
+            <ul>
+                <li><a href="#">2ª via de IPTU</a></li>
+                <li><a href="#">Agendamento Médico</a></li>
+                <li><a href="#">Consulta Escolar</a></li>
+                <li><a href="#">Atendimento Virtual</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!-- Nova aba: Câmeras -->
+<div id="cameras" class="tabcontent">
+    <h2>📹 Câmeras de Londrina e Região</h2>
+    <div class="videowall">
+        <div class="panel">
+            <h3>Vista da cidade – Slaviero Londrina Flat Hotel</h3>
+            <iframe src="https://s1.vision-environnement.com/livecams/webcam.php?lang=pt&webcam=londrina" height="250"></iframe>
+            <div class="ai-panel" id="aiMemorial"></div>
+        </div>
+        <div class="panel">
+            <h3>Centro de Londrina – Webcam Clima/Tráfego</h3>
+            <iframe src="https://www.webcamgalore.com/webcam/Brazil/Londrina/37107.html" height="250"></iframe>
+            <div class="ai-panel" id="aiAv85"></div>
+        </div>
+        <div class="panel">
+            <h3>Entrada Apucarana ⇄ Londrina (Rodovia)</h3>
+            <iframe src="https://camerasdomundo.com/estrada-apucarana-londrina-ao-vivo/" height="250"></iframe>
+            <div class="ai-panel" id="aiRua9"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+<footer>
+    <p>Portal Londrina Inteligente – 90 Anos – Protótipo © 2025</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Controle de abas
+    const buttons = document.querySelectorAll(".tablink");
+    buttons.forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.querySelectorAll(".tabcontent").forEach(tab => tab.style.display = "none");
+            buttons.forEach(b => b.classList.remove("active"));
+            const tabId = this.getAttribute("data-tab");
+            document.getElementById(tabId).style.display = "block";
+            this.classList.add("active");
+        });
+    });
+
+    // Alertas dinâmicos
+    const alertPanel = document.getElementById('alertPanel');
+    const exemplos = [
+        "🚨 Assalto no Centro",
+        "🚑 SAMU em Jardim América",
+        "🔥 Incêndio em vegetação - PR-020",
+        "🚔 Blitz da PM na Av. T-63",
+        "⚡ Queda de energia em Campinas",
+        "🌊 Enchente no Setor Universitário"
+    ];
+    let i = 0;
+    setInterval(() => {
+        const div = document.createElement("div");
+        const horario = new Date().toLocaleTimeString();
+        div.classList.add("alert-item");
+        div.textContent = `[${horario}] ${exemplos[i % exemplos.length]}`;
+        alertPanel.prepend(div);
+        i++;
+    }, 6000);
+
+    // Notícias dinâmicas
+    const newsPanel = document.getElementById('newsPanel');
+    const noticias = [
+        "🏥 Novo hospital estadual será inaugurado em Cambé.",
+        "🚦 Semáforos inteligentes reduzem 20% do trânsito em Londrina.",
+        "🌳 Projeto de reflorestamento urbano plantará 5 mil árvores.",
+        "💡 Expansão da iluminação LED em 3 cidades do interior.",
+        "🚍 Integração total do transporte público até 2026."
+    ];
+    let j = 0;
+    setInterval(() => {
+        const div = document.createElement("div");
+        const horario = new Date().toLocaleTimeString();
+        div.textContent = `[${horario}] ${noticias[j % noticias.length]}`;
+        newsPanel.prepend(div);
+        j++;
+    }, 8000);
+});
+
+// Gráficos
+new Chart(document.getElementById('ocorrenciasChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: ['Polícia','SAMU','Bombeiros','Defesa Civil'],
+        datasets: [{ data: [38,22,15,7],
+            backgroundColor: ['#cc0000','#ff6600','#0099cc','#00cc66']}]
+    }
+});
+new Chart(document.getElementById('emergenciasChart').getContext('2d'), {
+    type: 'doughnut',
+    data: { labels: ['Acidentes','Incêndios','Saúde','Outros'],
+        datasets: [{ data: [45,12,25,18],
+            backgroundColor: ['#ff3333','#ff9900','#66ccff','#99cc00']}]
+    }
+});
+new Chart(document.getElementById('trafegoChart').getContext('2d'), {
+    type: 'line',
+    data: { labels: ['7h','9h','12h','15h','18h','21h'],
+        datasets: [{ data: [40,75,55,60,92,35],
+            borderColor: '#00ff99', backgroundColor: 'rgba(0,255,150,0.2)', fill: true }] }
+});
+new Chart(document.getElementById('onibusChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: ['Rodando','Parados','Manutenção'],
+        datasets: [{ data: [180,25,15],
+            backgroundColor: ['#00cc66','#ffcc00','#cc0000']}]
+    }
+});
+new Chart(document.getElementById('lixeirasChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: ['Cheias','Em Coleta','Vazias','Manutenção'],
+        datasets: [{ data: [320,120,560,40],
+            backgroundColor: ['#cc0000','#ffcc00','#00cc66','#666666']}]
+    }
+});
+new Chart(document.getElementById('rotasChart').getContext('2d'), {
+    type: 'line',
+    data: { labels: ['Jan','Fev','Mar','Abr','Mai','Jun'],
+        datasets: [{ data: [1200,1500,1800,2000,2300,2500],
+            borderColor: '#00ff99', fill: true, backgroundColor: 'rgba(0,255,150,0.2)'}] }
+});
+new Chart(document.getElementById('iluminacaoChart').getContext('2d'), {
+    type: 'pie',
+    data: { labels: ['LED','Solar','Convencional'],
+        datasets: [{ data: [65,20,15],
+            backgroundColor: ['#00ccff','#ffcc00','#999999']}]
+    }
+});
+new Chart(document.getElementById('qualidadeArChart').getContext('2d'), {
+    type: 'line',
+    data: { labels: ['0h','4h','8h','12h','16h','20h'],
+        datasets: [
+            { label: 'PM2.5', data: [20,35,50,60,40,25], borderColor: '#ff6600', fill: false },
+            { label: 'CO₂', data: [400,420,450,500,470,430], borderColor: '#00ff99', fill: false },
+            { label: 'Ruído', data: [55,60,70,75,65,58], borderColor: '#0099ff', fill: false }
+        ] }
+});
+new Chart(document.getElementById('energiaHistoricoChart').getContext('2d'), {
+    type: 'line',
+    data: { labels: ['Jan','Fev','Mar','Abr','Mai','Jun'],
+        datasets: [
+            { label: 'Convencional', data: [500,450,400,370,350,320], borderColor: '#ff3333', fill: false },
+            { label: 'LED', data: [150,170,200,220,250,270], borderColor: '#00ccff', fill: false },
+            { label: 'Solar', data: [80,90,100,120,140,160], borderColor: '#ffcc00', fill: false }
+        ] }
+});
+
+    // Semáforos
+    new Chart(document.getElementById('semaforosChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Verde', 'Amarelo', 'Vermelho', 'Defeito'],
+            datasets: [{ data: [120, 30, 90, 5], backgroundColor: ['#00cc66','#ffcc00','#cc0000','#999999'] }]
+        }
+    });
+
+    // Clima (seca, vegetação, ar, chuva)
+    new Chart(document.getElementById('climaChart'), {
+        type: 'line',
+        data: {
+            labels: ['Jan','Fev','Mar','Abr','Mai','Jun'],
+            datasets: [
+                { label: 'Índice de Seca', data: [40,35,50,60,55,70], borderColor: '#ff9900', fill:false },
+                { label: 'Vegetação (NDVI)', data: [0.65,0.62,0.70,0.72,0.68,0.75], borderColor: '#00cc44', fill:false },
+                { label: 'Qualidade do Ar (PM2.5)', data: [18,22,25,30,27,35], borderColor: '#3399ff', fill:false },
+                { label: 'Chuva (mm)', data: [200,180,150,100,90,70], borderColor: '#6666ff', fill:false }
+            ]
+        }
+    });
+
+
+    // IA simulada nas câmeras (alertas automáticos)
+    function simularAI(panelId, mensagens) {
+        let i = 0;
+        setInterval(() => {
+            const painel = document.getElementById(panelId);
+            if (painel) {
+                const div = document.createElement("div");
+                const horario = new Date().toLocaleTimeString();
+                div.textContent = `[${horario}] ${mensagens[i % mensagens.length]}`;
+                painel.prepend(div);
+                i++;
+            }
+        }, 7000);
+    }
+
+    simularAI("aiMemorial", ["🚶 Sujeito suspeito detectado", "🎒 Objeto abandonado", "🚑 SAMU acionado"]);
+    simularAI("aiAv85", ["🚗 Veículo suspeito parado", "🚓 Polícia acionada", "🏍️ Motocicleta em alta velocidade"]);
+    simularAI("aiRua9", ["🚶 Grupo suspeito em esquina", "🚒 Bombeiros acionados – fumaça detectada"]);
+
+
+    // IA simulada para IoT Urbano
+    simularAI("aiIot", [
+        "🗑️ Lixeira cheia detectada na Rua 9",
+        "🚛 Coleta atrasada no Setor Bueno",
+        "💡 Poste de iluminação apagado na Av. T-63",
+        "🌫️ Nível crítico de PM2.5 na Região Central",
+        "🔊 Ruído excessivo detectado em Cambé de Londrina"
+    ]);
+
+
+    // ESG
+    simularAI("aiEsg", [
+        "♻️ Meta de resíduos atingida (-25%)",
+        "🌱 CO₂ evitado ultrapassa 12 mil ton/ano",
+        "⛽ Consumo de combustível acima do esperado"
+    ]);
+
+    // Clima
+    simularAI("aiClima", [
+        "🌡️ Índice de seca crítico em Ibiporã",
+        "🌫️ Baixa qualidade do ar em Londrina",
+        "🌧️ Chuva intensa prevista para Cambé"
+    ]);
+
+    // Serviços
+    simularAI("aiServicos", [
+        "💻 Novo acesso a 2ª via de IPTU",
+        "🏥 Agendamento Médico confirmado no HUGO",
+        "🏫 Consulta Escolar realizada em Cambé",
+        "📞 Atendimento Virtual em andamento"
+    ]);
+
+
+    // Mobilidade
+    simularAI("aiMobilidade", [
+        "🚦 Semáforo inoperante na Av. 85",
+        "🚗 Congestionamento crítico na Marginal Botafogo",
+        "🚌 Frota reduzida em Cambé",
+        "🚨 Acidente registrado na BR-153"
+    ]);
+
+</script>
+
+<script>!function(window){const host="https://labs.heygen.com",url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJBbmFzdGFzaWFfUHJvZmVzc2lvbmFsTG9v%0D%0Aa19wdWJsaWMiLCJwcmV2aWV3SW1nIjoiaHR0cHM6Ly9maWxlczIuaGV5Z2VuLmFpL2F2YXRhci92%0D%0AMy82NDI4Y2YzODcyMDk0OTk1YWY4ZjQwNjk2ZGRkNmVmM181NTc5MC9wcmV2aWV3X3RhcmdldC53%0D%0AZWJwIiwibmVlZFJlbW92ZUJhY2tncm91bmQiOnRydWUsImtub3dsZWRnZUJhc2VJZCI6IjIwNzk2%0D%0AOTVjYjMxODRkMzg4NjBlODM1ZGM4YzFiZDE2IiwidXNlcm5hbWUiOiIxYzljNWMyZDg1MjE0ODg0%0D%0AYmNhMDEwOTJmYTUwY2QwMCJ9&inIFrame=1",clientWidth=document.body.clientWidth,wrapDiv=document.createElement("div");wrapDiv.id="heygen-streaming-embed";const container=document.createElement("div");container.id="heygen-streaming-container";const stylesheet=document.createElement("style");stylesheet.innerHTML=`\n  #heygen-streaming-embed {\n    z-index: 9999;\n    position: fixed;\n    left: 40px;\n    bottom: 40px;\n    width: 200px;\n    height: 200px;\n    border-radius: 50%;\n    border: 2px solid #fff;\n    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);\n    transition: all linear 0.1s;\n    overflow: hidden;\n\n    opacity: 0;\n    visibility: hidden;\n  }\n  #heygen-streaming-embed.show {\n    opacity: 1;\n    visibility: visible;\n  }\n  #heygen-streaming-embed.expand {\n    ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}\n    border: 0;\n    border-radius: 8px;\n  }\n  #heygen-streaming-container {\n    width: 100%;\n    height: 100%;\n  }\n  #heygen-streaming-container iframe {\n    width: 100%;\n    height: 100%;\n    border: 0;\n  }\n  `;const iframe=document.createElement("iframe");iframe.allowFullscreen=!1,iframe.title="Streaming Embed",iframe.role="dialog",iframe.allow="microphone",iframe.src=url;let visible=!1,initial=!1;window.addEventListener("message",(e=>{e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&("init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):"show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):"hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible)))})),container.appendChild(iframe),wrapDiv.appendChild(stylesheet),wrapDiv.appendChild(container),document.body.appendChild(wrapDiv)}(globalThis);</script>
+</body>
+</html>

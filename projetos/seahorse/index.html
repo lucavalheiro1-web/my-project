@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seahorse Club — Premium Baby Development Tracker</title>
+    <meta name="description" content="Track your baby's development with our premium, multilingual baby tracker. Features comprehensive daily tracking, milestone monitoring, and expert guidance.">
+    <meta name="keywords" content="baby tracker, development milestones, parenting, child development, baby care">
+    <meta name="author" content="Seahorse Club">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Seahorse Club — Premium Baby Development Tracker">
+    <meta property="og:description" content="Track your baby's development with our premium, multilingual baby tracker.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://seahorseclub.com">
+    <meta property="og:image" content="https://seahorseclub.com/og-image.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Seahorse Club — Premium Baby Development Tracker">
+    <meta name="twitter:description" content="Track your baby's development with our premium, multilingual baby tracker.">
+    <meta name="twitter:image" content="https://seahorseclub.com/twitter-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="seahorse-logo">🌊</div>
+            <h2>Seahorse Club</h2>
+            <p>Preparing your baby's journey...</p>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <!-- Brand -->
+        <div class="brand">
+            <div class="brand-logo">🌊</div>
+            <div class="brand-text">
+                <h1 class="brand-name">Seahorse Club</h1>
+                <p class="brand-tagline">Premium Baby Development</p>
+            </div>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <label for="language-select" id="language-label">Language</label>
+            <select id="language-select" class="language-select" aria-label="Select Language">
+                <option value="en">🇺🇸 English</option>
+                <option value="pt">🇧🇷 Português</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="de">🇩🇪 Deutsch</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navigation">
+        <div class="nav-menu">
+            <button class="nav-item active" data-section="home" aria-label="Home">
+                <i class="fas fa-home"></i>
+                <span id="nav-home">Home</span>
+            </button>
+            <button class="nav-item" data-section="qr" aria-label="QR Scanner">
+                <i class="fas fa-qrcode"></i>
+                <span id="nav-qr">QR Scanner</span>
+            </button>
+            <button class="nav-item" data-section="learning" aria-label="Learning Hub">
+                <i class="fas fa-graduation-cap"></i>
+                <span id="nav-learning">Learning Hub</span>
+            </button>
+            <button class="nav-item" data-section="activities" aria-label="Activities">
+                <i class="fas fa-puzzle-piece"></i>
+                <span id="nav-activities">Activities</span>
+            </button>
+            <button class="nav-item" data-section="education" aria-label="Education">
+                <i class="fas fa-book-open"></i>
+                <span id="nav-education">Education</span>
+            </button>
+            <button class="nav-item" data-section="tracker" aria-label="Daily Tracker">
+                <i class="fas fa-chart-line"></i>
+                <span id="nav-tracker">Daily Tracker</span>
+            </button>
+            <button class="nav-item" data-section="analytics" aria-label="Analytics">
+                <i class="fas fa-analytics"></i>
+                <span id="nav-analytics">Analytics</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        
+        <!-- Home Section -->
+        <section id="home-section" class="section active animate-fade-in">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="floating-elements">
+                    <div class="float-icon" style="top: 20%; left: 15%;">🌟</div>
+                    <div class="float-icon" style="top: 30%; right: 20%;">🎈</div>
+                    <div class="float-icon" style="bottom: 40%; left: 25%;">🧸</div>
+                    <div class="float-icon" style="bottom: 20%; right: 15%;">🌈</div>
+                </div>
+                <h1 class="hero-title" id="hero-title">Welcome to Your Baby's Journey</h1>
+                <p class="hero-subtitle" id="hero-subtitle">Track, learn, and grow together with personalized activities and expert guidance designed for your little one's development.</p>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section">
+                <div class="stat-card animate-slide-up">
+                    <div class="stat-number">127</div>
+                    <div class="stat-label" id="stat-activities">Activities Completed</div>
+                </div>
+                <div class="stat-card animate-slide-up">
+                    <div class="stat-number">14</div>
+                    <div class="stat-label" id="stat-weeks">Weeks Tracked</div>
+                </div>
+                <div class="stat-card animate-slide-up">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label" id="stat-milestones">Milestones On Track</div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Baby Profile Card -->
+                <div class="luxury-card animate-scale-in">
+                    <div class="card-header">
+                        <h2 class="card-title" id="baby-profile-title">Baby Profile</h2>
+                        <div class="card-icon">👶</div>
+                    </div>
+                    <div class="baby-profile">
+                        <div class="baby-avatar">😊</div>
+                        <h3 class="baby-name">Emma Rose</h3>
+                        <p class="baby-age" id="baby-age">14 weeks old (3–6 months cycle)</p>
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <span id="development-progress">Development Progress</span>
+                                <span class="progress-percentage">73%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 73%;"></div>
+                            </div>
+                        </div>
+                        <div class="milestones">
+                            <span class="milestone" id="milestone-smile">Social Smile</span>
+                            <span class="milestone" id="milestone-head">Head Control</span>
+                            <span class="milestone" id="milestone-roll">Rolling Over</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Summary Card -->
+                <div class="luxury-card animate-scale-in">
+                    <div class="card-header">
+                        <h2 class="card-title" id="today-summary-title">Today's Summary</h2>
+                        <div class="card-icon">📅</div>
+                        <div class="date-display" id="current-date">Saturday, September 13, 2025</div>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-icon bg-primary">🌙</div>
+                            <div class="summary-value stat-value">12h 30m</div>
+                            <div class="summary-label" id="total-sleep">Total Sleep</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon bg-secondary">🍼</div>
+                            <div class="summary-value stat-value">8</div>
+                            <div class="summary-label" id="feedings">Feedings</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon bg-accent">👶</div>
+                            <div class="summary-value stat-value">6</div>
+                            <div class="summary-label" id="diaper-changes">Diaper Changes</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon bg-success">😊</div>
+                            <div class="summary-value" id="mood-happy">Happy</div>
+                            <div class="summary-label" id="overall-mood">Overall Mood</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2 class="section-title" id="quick-actions-title">Quick Actions</h2>
+                <div class="actions-grid">
+                    <div class="action-card">
+                        <div class="action-icon bg-primary">📝</div>
+                        <h3 id="log-activity">Log Activity</h3>
+                        <p id="log-subtitle">Record feeding, sleep, or diaper change</p>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon bg-secondary">📱</div>
+                        <h3 id="scan-qr">Scan QR Code</h3>
+                        <p id="scan-subtitle">Access subscription box activities</p>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon bg-accent">🎯</div>
+                        <h3 id="daily-activity">Daily Activity</h3>
+                        <p id="activity-subtitle">Today's recommended exercise</p>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon bg-success">📚</div>
+                        <h3 id="micro-lesson">Micro Lesson</h3>
+                        <p id="lesson-subtitle">5-minute parenting tip</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Insights -->
+            <div class="insights-section">
+                <div class="section-header">
+                    <h2 class="section-title" id="insights-title">Smart Insights</h2>
+                    <button class="view-all-btn" id="view-all">View All</button>
+                </div>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-icon">🌙</div>
+                        <p id="insight-sleep">Emma sleeps best between 7-9 PM. Consider starting bedtime routine earlier.</p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">🍼</div>
+                        <p id="insight-feeding">Feeding frequency has stabilized. Great progress on establishing routine!</p>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">🎯</div>
+                        <p id="insight-milestone">Ready for tummy time activities. Check today's recommended exercises.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QR Scanner Section -->
+        <section id="qr-section" class="section">
+            <div class="section-header">
+                <h1 class="section-title" id="qr-title">QR Scanner</h1>
+                <p class="section-subtitle" id="qr-subtitle">Scan QR codes from your subscription box to unlock exclusive activities</p>
+            </div>
+            
+            <div class="qr-scanner-container">
+                <div class="scanner-area">
+                    <div class="scanner-frame">
+                        <div class="scanner-corners"></div>
+                        <div class="scanner-line"></div>
+                    </div>
+                    <p id="scanner-instruction">Position QR code within the frame</p>
+                </div>
+                
+                <div class="scanner-controls">
+                    <button class="btn btn-primary" id="start-scan-btn">
+                        <i class="fas fa-camera"></i>
+                        <span id="start-scan">Start Scanning</span>
+                    </button>
+                    <button class="btn btn-secondary" id="upload-qr-btn">
+                        <i class="fas fa-upload"></i>
+                        <span id="upload-qr">Upload Image</span>
+                    </button>
+                    <input type="file" id="qr-file-input" accept="image/*" style="display: none;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Hub Section -->
+        <section id="learning-section" class="section">
+            <div class="section-header">
+                <h1 class="section-title" id="learning-title">Learning Hub</h1>
+                <p class="section-subtitle" id="learning-subtitle">Expertly curated content organized by your baby's developmental stage</p>
+            </div>
+
+            <!-- Stage Selector -->
+            <div class="stage-selector">
+                <button class="filter-tab active" data-stage="0-3">
+                    <span class="stage-icon">👶</span>
+                    <span id="stage-0-3">0–3 months<br>Newborn basics</span>
+                </button>
+                <button class="filter-tab" data-stage="3-6">
+                    <span class="stage-icon">😊</span>
+                    <span id="stage-3-6">3–6 months<br>Social development</span>
+                </button>
+                <button class="filter-tab" data-stage="6-9">
+                    <span class="stage-icon">🤲</span>
+                    <span id="stage-6-9">6–9 months<br>Motor skills</span>
+                </button>
+                <button class="filter-tab" data-stage="9-12">
+                    <span class="stage-icon">🚶</span>
+                    <span id="stage-9-12">9–12 months<br>Mobility & speech</span>
+                </button>
+            </div>
+
+            <!-- Stage Content -->
+            <div id="stage-content" class="stage-content">
+                <div class="stage-info">
+                    <h2 id="current-stage-title">Newborn Stage (0–3 months)</h2>
+                    <p id="current-stage-desc">Focus on bonding, feeding, and basic sensory development</p>
+                </div>
+
+                <div class="learning-grid">
+                    <div class="learning-card">
+                        <div class="card-icon">📈</div>
+                        <h3 id="previous-milestones">Previous Milestones</h3>
+                        <ul>
+                            <li id="milestone-birth">Birth reflexes</li>
+                            <li id="milestone-feeding">Initial feeding patterns</li>
+                        </ul>
+                    </div>
+
+                    <div class="learning-card">
+                        <div class="card-icon">⭐</div>
+                        <h3 id="current-focus">Current Focus</h3>
+                        <ul>
+                            <li id="focus-smiling">Social smiling</li>
+                            <li id="focus-head">Head control development</li>
+                            <li id="focus-visual">Visual tracking</li>
+                        </ul>
+                    </div>
+
+                    <div class="learning-card">
+                        <div class="card-icon">🎯</div>
+                        <h3 id="recommended-activities">Recommended Activities</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">🎵</div>
+                                <div>
+                                    <h4 id="tummy-time">Tummy Time Sessions</h4>
+                                    <p id="tummy-desc">Build neck and shoulder strength</p>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">👁️</div>
+                                <div>
+                                    <h4 id="visual-stim">Visual Stimulation</h4>
+                                    <p id="visual-desc">High-contrast patterns and colors</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="learning-card">
+                        <div class="card-icon">📚</div>
+                        <h3 id="learning-resources">Learning Resources</h3>
+                        <div class="resource-list">
+                            <a href="#" class="resource-link" id="resource-development">Development Guide</a>
+                            <a href="#" class="resource-link" id="resource-activities">Activity Ideas</a>
+                            <a href="#" class="resource-link" id="resource-milestones">Milestone Tracker</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activities Section -->
+        <section id="activities-section" class="section">
+            <div class="section-header">
+                <h1 class="section-title" id="activities-title">Developmental Activities</h1>
+                <p class="section-subtitle" id="activities-subtitle">Interactive activities designed around the toys in your current subscription box</p>
+            </div>
+
+            <!-- Activity Filters -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all" id="filter-all">All Activities</button>
+                <button class="filter-tab" data-filter="sensory" id="filter-sensory">Sensory</button>
+                <button class="filter-tab" data-filter="motor" id="filter-motor">Motor Skills</button>
+                <button class="filter-tab" data-filter="cognitive" id="filter-cognitive">Cognitive</button>
+                <button class="filter-tab" data-filter="social" id="filter-social">Social</button>
+            </div>
+
+            <!-- Activities Grid -->
+            <div class="activities-grid">
+                <div class="activity-card" data-category="sensory">
+                    <div class="activity-header">
+                        <div class="activity-icon">🎵</div>
+                        <div class="activity-meta">
+                            <span class="duration">10-15 min</span>
+                            <span class="difficulty easy">EASY</span>
+                        </div>
+                    </div>
+                    <h3 class="activity-title" id="activity-rattle">Rainbow Rattle</h3>
+                    <p class="activity-desc" id="rattle-desc">Auditory and visual development through colorful sounds</p>
+                    <div class="activity-footer">
+                        <span class="category" id="category-sensory">Sensory</span>
+                        <span class="activity-count">3 activities</span>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-category="motor">
+                    <div class="activity-header">
+                        <div class="activity-icon">🤲</div>
+                        <div class="activity-meta">
+                            <span class="duration">5-10 min</span>
+                            <span class="difficulty easy">EASY</span>
+                        </div>
+                    </div>
+                    <h3 class="activity-title" id="activity-blocks">Soft Blocks</h3>
+                    <p class="activity-desc" id="blocks-desc">Grasping and hand-eye coordination development</p>
+                    <div class="activity-footer">
+                        <span class="category" id="category-motor">Motor Skills</span>
+                        <span class="activity-count">4 activities</span>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-category="cognitive">
+                    <div class="activity-header">
+                        <div class="activity-icon">🔍</div>
+                        <div class="activity-meta">
+                            <span class="duration">15-20 min</span>
+                            <span class="difficulty medium">MEDIUM</span>
+                        </div>
+                    </div>
+                    <h3 class="activity-title" id="activity-mirror">Peek-a-Boo Mirror</h3>
+                    <p class="activity-desc" id="mirror-desc">Self-recognition and cause-and-effect learning</p>
+                    <div class="activity-footer">
+                        <span class="category" id="category-cognitive">Cognitive</span>
+                        <span class="activity-count">2 activities</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education-section" class="section">
+            <div class="section-header">
+                <h1 class="section-title" id="education-title">Parent Education Center</h1>
+                <p class="section-subtitle" id="education-subtitle">Evidence-based guidance from pediatric specialists to support your parenting journey</p>
+            </div>
+
+            <!-- Education Categories -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-category="milestones" id="edu-milestones">Milestones</button>
+                <button class="filter-tab" data-category="sleep" id="edu-sleep">Sleep</button>
+                <button class="filter-tab" data-category="brain" id="edu-brain">Brain Development</button>
+                <button class="filter-tab" data-category="bonding" id="edu-bonding">Bonding</button>
+                <button class="filter-tab" data-category="safety" id="edu-safety">Safety</button>
+                <button class="filter-tab" data-category="nutrition" id="edu-nutrition">Nutrition</button>
+            </div>
+
+            <!-- Milestones Tracker -->
+            <div class="milestones-tracker">
+                <h2 id="milestones-tracker-title">Development Milestones Tracker</h2>
+                
+                <div class="milestone-categories">
+                    <div class="milestone-category">
+                        <h3 id="visual-development">Visual Development</h3>
+                        <div class="milestone-list">
+                            <div class="milestone-item completed">
+                                <span class="milestone-status">✓</span>
+                                <span id="milestone-follows">Follows objects with eyes (2-3 months)</span>
+                            </div>
+                            <div class="milestone-item completed">
+                                <span class="milestone-status">✓</span>
+                                <span id="milestone-recognizes">Recognizes familiar faces (3-4 months)</span>
+                            </div>
+                            <div class="milestone-item pending">
+                                <span class="milestone-status">○</span>
+                                <span id="milestone-reaches">Reaches for objects (4-5 months)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="milestone-category">
+                        <h3 id="communication">Communication</h3>
+                        <div class="milestone-list">
+                            <div class="milestone-item completed">
+                                <span class="milestone-status">✓</span>
+                                <span id="milestone-social-smile">Social smiling (2-3 months)</span>
+                            </div>
+                            <div class="milestone-item completed">
+                                <span class="milestone-status">✓</span>
+                                <span id="milestone-cooing">Cooing sounds (2-4 months)</span>
+                            </div>
+                            <div class="milestone-item pending">
+                                <span class="milestone-status">○</span>
+                                <span id="milestone-laughing">Laughing (3-5 months)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="milestone-category">
+                        <h3 id="motor-skills">Motor Skills</h3>
+                        <div class="milestone-list">
+                            <div class="milestone-item completed">
+                                <span class="milestone-status">✓</span>
+                                <span id="milestone-head-control">Head control when supported (2-4 months)</span>
+                            </div>
+                            <div class="milestone-item pending">
+                                <span class="milestone-status">○</span>
+                                <span id="milestone-rolling">Rolling over (4-6 months)</span>
+                            </div>
+                            <div class="milestone-item pending">
+                                <span class="milestone-status">○</span>
+                                <span id="milestone-sitting">Sitting with support (4-6 months)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Articles -->
+            <div class="featured-articles">
+                <h2 id="featured-articles-title">Featured Articles</h2>
+                <div class="articles-grid">
+                    <article class="article-card">
+                        <div class="article-icon">🧠</div>
+                        <div class="article-category" id="article-cat-brain">Brain Development</div>
+                        <h3 id="article-brain-title">The Science of Baby Brain Development</h3>
+                        <p id="article-brain-desc">Understanding how your baby's brain develops in the first year and how you can support optimal growth.</p>
+                        <div class="article-meta">
+                            <span class="read-time">5 min read</span>
+                            <a href="#" class="read-more" id="read-more-brain">Read More</a>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-icon">😴</div>
+                        <div class="article-category" id="article-cat-sleep">Sleep</div>
+                        <h3 id="article-sleep-title">Establishing Healthy Sleep Patterns</h3>
+                        <p id="article-sleep-desc">Expert tips for creating consistent sleep routines that work for both baby and parents.</p>
+                        <div class="article-meta">
+                            <span class="read-time">7 min read</span>
+                            <a href="#" class="read-more" id="read-more-sleep">Read More</a>
+                        </div>
+                    </article>
+
+                    <article class="article-card">
+                        <div class="article-icon">❤️</div>
+                        <div class="article-category" id="article-cat-bonding">Bonding</div>
+                        <h3 id="article-bonding-title">Building Strong Parent-Baby Bonds</h3>
+                        <p id="article-bonding-desc">Simple daily practices that strengthen the emotional connection with your little one.</p>
+                        <div class="article-meta">
+                            <span class="read-time">4 min read</span>
+                            <a href="#" class="read-more" id="read-more-bonding">Read More</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Tracker Section -->
+        <section id="tracker-section" class="section">
+            <div class="section-header">
+                <h1 class="section-title" id="tracker-title">Daily Baby Tracker</h1>
+                <p class="section-subtitle" id="tracker-subtitle">Comprehensive tracking for sleep, feeding, diapers, mood, and development milestones</p>
+                <div class="date-display" id="tracker-date">Saturday, September 13, 2025</div>
+            </div>
+
+            <!-- Tracker Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-tab="overview" id="tab-overview">Overview</button>
+                <button class="filter-tab" data-tab="sleep" id="tab-sleep">Sleep</button>
+                <button class="filter-tab" data-tab="feeding" id="tab-feeding">Feeding</button>
+                <button class="filter-tab" data-tab="diapers" id="tab-diapers">Diapers</button>
+                <button class="filter-tab" data-tab="mood" id="tab-mood">Mood</button>
+                <button class="filter-tab" data-tab="health" id="tab-health">Health</button>
+            </div>
+
+            <!-- Daily Summary -->
+            <div class="daily-summary">
+                <h2 id="daily-summary-title">Daily Summary</h2>
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">🌙</div>
+                        <div class="stat-value">12h 15m</div>
+                        <div class="stat-label" id="summary-sleep">Total Sleep</div>
+                        <div class="stat-detail">5 sleep sessions</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">🍼</div>
+                        <div class="stat-value">6</div>
+                        <div class="stat-label" id="summary-feedings">Feedings</div>
+                        <div class="stat-detail">4 breast, 2 formula</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">👶</div>
+                        <div class="stat-value">6</div>
+                        <div class="stat-label" id="summary-diapers">Diaper Changes</div>
+                        <div class="stat-detail">6 wet, 3 dirty</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">😊</div>
+                        <div class="stat-value" id="summary-mood-value">Good</div>
+                        <div class="stat-label" id="summary-mood">Overall Mood</div>
+                        <div class="stat-detail">Mostly content</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="recent-activities">
+                <h3 id="recent-activities-title">Recent Activities</h3>
+                <div class="activity-timeline">
+                    <div class="timeline-filters">
+                        <button class="timeline-filter active" data-filter="all">All</button>
+                        <button class="timeline-filter" data-filter="sleep">Sleep</button>
+                        <button class="timeline-filter" data-filter="feeding">Feeding</button>
+                        <button class="timeline-filter" data-filter="diaper">Diaper</button>
+                        <button class="timeline-filter" data-filter="mood">Mood</button>
+                    </div>
+                    <div class="activity-list">
+                        <!-- Activities will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics-section" class="section">
+            <div class="section-header">
+                <h1 class="section-title" id="analytics-title">Analytics & Insights</h1>
+                <p class="section-subtitle" id="analytics-subtitle">Discover patterns and trends in your baby's development and daily routines</p>
+            </div>
+
+            <!-- Time Period Selector -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-period="week" id="period-week">This Week</button>
+                <button class="filter-tab" data-period="month" id="period-month">This Month</button>
+                <button class="filter-tab" data-period="quarter" id="period-quarter">3 Months</button>
+            </div>
+
+            <!-- Analytics Grid -->
+            <div class="analytics-grid">
+                <!-- Sleep Trends -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-icon">🌙</div>
+                        <h3 id="sleep-trends">Sleep Trends</h3>
+                    </div>
+                    <div class="metric-value">12.5h</div>
+                    <div class="metric-label" id="avg-sleep">Average Daily Sleep</div>
+                    <div class="metric-change positive">+30min from last week</div>
+                    <div class="chart-placeholder">📈 7-day sleep trend</div>
+                </div>
+
+                <!-- Feeding Patterns -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-icon">🍼</div>
+                        <h3 id="feeding-patterns">Feeding Patterns</h3>
+                    </div>
+                    <div class="metric-value">7.2</div>
+                    <div class="metric-label" id="avg-feedings">Average Daily Feedings</div>
+                    <div class="metric-change neutral">Consistent pattern</div>
+                    <div class="feeding-breakdown">
+                        <div class="breakdown-item">
+                            <span>Breast: 75%</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Formula: 25%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Growth Progress -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-icon">📏</div>
+                        <h3 id="growth-progress">Growth Progress</h3>
+                    </div>
+                    <div class="metric-value">73%</div>
+                    <div class="metric-label" id="milestone-completion">Milestone Completion</div>
+                    <div class="metric-change positive">On track for age</div>
+                    <div class="progress-categories">
+                        <div class="category-item">Motor Skills</div>
+                        <div class="category-item">Social</div>
+                        <div class="category-item">Cognitive</div>
+                    </div>
+                </div>
+
+                <!-- Mood Analysis -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <div class="card-icon">😊</div>
+                        <h3 id="mood-analysis">Mood Analysis</h3>
+                    </div>
+                    <div class="metric-value">85%</div>
+                    <div class="metric-label" id="happy-time">Happy/Content Time</div>
+                    <div class="metric-change positive">Improving trend</div>
+                    <div class="mood-breakdown">
+                        <div class="mood-item">😊 Happy: 60%</div>
+                        <div class="mood-item">😌 Content: 25%</div>
+                        <div class="mood-item">😢 Fussy: 15%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="key-insights">
+                <h2 id="key-insights-title">Key Insights</h2>
+                <div class="insights-list">
+                    <div class="insight-item">
+                        <div class="insight-icon">🎯</div>
+                        <div class="insight-content">
+                            <h4 id="insight-activity-title">Optimal Activity Times</h4>
+                            <p id="insight-activity-desc">Emma is most alert and engaged between 10 AM - 12 PM and 3 PM - 5 PM. Schedule interactive activities during these windows.</p>
+                        </div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-icon">🌙</div>
+                        <div class="insight-content">
+                            <h4 id="insight-sleep-title">Sleep Pattern Improvement</h4>
+                            <p id="insight-sleep-desc">Sleep duration has increased by 30 minutes over the past week. The 7 PM bedtime routine is showing positive results.</p>
+                        </div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-icon">📈</div>
+                        <div class="insight-content">
+                            <h4 id="insight-milestone-title">Development Milestone</h4>
+                            <p id="insight-milestone-desc">Emma is approaching the rolling over milestone. Increase tummy time activities to support this development.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PDF Modal -->
+    <div id="pdf-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="pdf-modal-title">Daily Baby Tracker Guide</h3>
+                <button id="close-pdf" class="close-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <embed src="Daily-Baby-Tracker-for-New-Mothers.pdf" type="application/pdf" width="100%" height="600px">
+            </div>
+            <div class="modal-footer">
+                <button id="pdf-download" class="btn btn-primary" id="download-pdf">Download PDF</button>
+                <button id="pdf-print" class="btn btn-secondary" id="print-pdf">Print</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Success Modal -->
+    <div id="qr-success-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="qr-success-title">QR Code Scanned Successfully!</h3>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">✅</div>
+                <p id="qr-success-message">Great! You've unlocked new activities for your subscription box.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="access-content-btn" class="btn btn-primary" id="access-content">Access Content</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
